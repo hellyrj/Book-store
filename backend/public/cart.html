@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BookNest — Cart</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Light/Dark Toggle -->
+  <input type="checkbox" id="theme-checkbox" aria-label="Toggle Light/Dark Mode"/>
+  <label for="theme-checkbox" class="theme-switch">🌙 Light / ☀️ Dark</label>
+
+  <div class="site">
+    <header class="site-header container flex between center wrap">
+      <a class="brand" href="index.html">
+        <img src="images/logo.png" alt="BookNest Logo" />
+        <span>BookNest</span>
+      </a>
+      <nav class="nav flex center wrap" role="navigation" aria-label="Main navigation">
+  <a href="index.html" class="reveal">Home</a>
+  <a href="shop.html" class="reveal">Shop</a>
+  <a href="categories.html" class="reveal">Categories</a>
+  <a href="contact.html" class="reveal">Contact</a>
+
+  <!-- Right side: Cart + Login -->
+  <div class="nav-right">
+    <a href="cart.html" class="badge">🛒 <span id="cart-count">0</span></a>
+    <a href="login.html" class="login-btn">Login</a>
+  </div>
+</nav>
+
+    </header>
+
+    <main class="container reveal" style="padding-top:16px">
+      <h2>Your Cart</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Subtotal</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="cart-items">
+          <!-- Items injected by script.js -->
+        </tbody>
+      </table>
+
+      <div class="flex between" style="margin-top:12px; align-items:center;">
+        <div class="badge">Total: <span id="cart-total">$0.00</span></div>
+        <a class="btn" href="checkout.html">Checkout</a>
+      </div>
+    </main>
+
+    <footer class="site-footer container">
+      <p>© <span id="year"></span> BookNest Online Bookstore</p>
+      <address>
+        Email: <a href="mailto:support@booknest.com">support@booknest.com</a><br/>
+        Phone: +251 912 345 678
+      </address>
+      <p>Delivering your favorite books right to your door.</p>
+    </footer>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

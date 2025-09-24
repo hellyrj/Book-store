@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Panel — BookNest</title>
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+  <header class="admin-header">
+    <h1>📚 BookNest — Admin</h1>
+    <div class="header-right">
+      <button id="logout-btn" class="btn outline">Logout</button>
+    </div>
+  </header>
+
+  <main class="admin-main container">
+    <section class="card add-card">
+      <h2>Add a New Book</h2>
+      <form id="add-book-form" class="form-grid">
+        <input id="title" placeholder="Title" required />
+        <input id="author" placeholder="Author" required />
+        <input id="isbn" placeholder="ISBN" required />
+        <input id="price" type="number" step="0.01" placeholder="Price" required />
+        <input id="stock" type="number" placeholder="Stock" required />
+
+        <select id="category-select" required>
+          <option value="">Select Category</option>
+        </select>
+
+        <input id="cover_url" placeholder="Cover Image URL (optional)" />
+        <textarea id="description" rows="3" placeholder="Description (optional)"></textarea>
+
+        <div class="full-row">
+          <button type="submit" class="btn primary">Add Book</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card list-card">
+      <div class="list-header">
+        <h2>Manage Books</h2>
+        <input id="search-bar" placeholder="Search by title / author / isbn..." />
+      </div>
+
+      <div class="table-wrap">
+        <table class="books-table" aria-live="polite">
+          <thead>
+            <tr>
+              <th>Cover</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th class="actions-col">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="books-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Edit Popup Modal -->
+  <div id="edit-modal" class="modal hidden" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-inner" role="document">
+      <button id="close-edit" class="modal-close" aria-label="Close edit dialog">&times;</button>
+      <h3>Edit Book</h3>
+
+      <form id="edit-book-form" class="form-grid">
+        <input type="hidden" id="edit-book-id" />
+
+        <input id="edit-title" placeholder="Title" required />
+        <input id="edit-author" placeholder="Author" required />
+        <input id="edit-isbn" placeholder="ISBN" required />
+        <input id="edit-price" type="number" step="0.01" placeholder="Price" required />
+        <input id="edit-stock" type="number" placeholder="Stock" required />
+
+        <select id="edit-category" required>
+          <option value="">Select Category</option>
+        </select>
+
+        <input id="edit-cover_url" placeholder="Cover Image URL" />
+        <textarea id="edit-description" rows="3" placeholder="Description"></textarea>
+
+        <div class="full-row modal-actions">
+          <button type="submit" class="btn primary">Save Changes</button>
+          <button type="button" id="cancel-edit" class="btn outline">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

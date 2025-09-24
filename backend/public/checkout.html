@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checkout — BookNest Online Bookstore</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- Light/Dark Mode Toggle -->
+<input type="checkbox" id="theme-checkbox" aria-label="Toggle Light/Dark Mode"/>
+<label for="theme-checkbox" class="theme-switch">🌙 Light / ☀️ Dark</label>
+
+<div class="site">
+
+  <!-- Header / Navbar -->
+  <header class="site-header container flex between center wrap">
+    <a class="brand" href="index.html">
+      <img src="images/logo.png" alt="BookNest Logo" />
+      <span>BookNest</span>
+    </a>
+    <nav class="nav flex center wrap" role="navigation" aria-label="Main navigation">
+  <a href="index.html" class="reveal">Home</a>
+  <a href="shop.html" class="reveal">Shop</a>
+  <a href="categories.html" class="reveal">Categories</a>
+  <a href="contact.html" class="reveal">Contact</a>
+
+  <!-- Right side: Cart + Login -->
+  <div class="nav-right">
+    <a href="cart.html" class="badge">🛒 <span id="cart-count">0</span></a>
+    <a href="login.html" class="login-btn">Login</a>
+  </div>
+</nav>
+
+  </header>
+
+  <!-- Checkout Section -->
+  <main class="container reveal" style="padding-top:16px;">
+    <h2>Checkout</h2>
+    <p>Review your order and enter your shipping details below.</p>
+
+    <!-- Order Summary -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Price</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody id="cart-items-checkout">
+        <!-- Items injected by script.js -->
+      </tbody>
+    </table>
+
+    <div class="flex between" style="margin-top:12px; align-items:center;">
+      <div class="badge">Total: <span id="cart-total-checkout">$0.00</span></div>
+    </div>
+
+    <!-- Shipping Form -->
+    <section class="card section-spacing" style="margin-top:2rem; max-width:500px;">
+      <h3>Shipping Information</h3>
+      <form id="checkout-form">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" required />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" required></textarea>
+
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required />
+
+        <label for="zip">ZIP / Postal Code:</label>
+        <input type="text" id="zip" name="zip" required />
+
+        <button type="submit" class="btn">Place Order</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer container">
+    <p>© <span id="year"></span> BookNest Online Bookstore</p>
+    <address>
+      Email: <a href="mailto:support@booknest.com">support@booknest.com</a><br/>
+      Phone: +251 912 345 678
+    </address>
+    <p>Delivering your favorite books right to your door.</p>
+  </footer>
+
+</div>
+
+<script src="js/script.js"></script>
+<script>
+  // ===== Inject cart items into checkout page =====
+  const checkoutItemsEl = document.getElementById("cart-items-checkout");
+  const checkoutTotalEl = document.getElementById("cart-total-checkout");
+  const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+
+  function renderCheckout() {
+    let total = 0;
+    checkoutItemsEl.innerHTML = "";
+    if(cartData.length === 0) {
+      checkoutItemsEl.innerHTML = '<tr><td colspan="4">Your cart is empty.</td></tr>';
+      checkoutTotalEl.textContent = '$0.00';
+      return;
+    }
+
+    cartData.forEach(item => {
+      const subtotal = item.price * item.qty;
+      total += subtotal;
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${item.name}</td>
+        <td>${item.qty}</td>
+        <td>$${item.price.toFixed(2)}</td>
+        <td>$${subtotal.toFixed(2)}</td>
+      `;
+      checkoutItemsEl.appendChild(tr);
+    });
+
+    checkoutTotalEl.textContent = `$${total.toFixed(2)}`;
+  }
+
+  renderCheckout();
+
+  // ===== Handle form submission =====
+  const checkoutForm = document.getElementById("checkout-form");
+  checkoutForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    // Simple success toast
+    const name = document.getElementById("name").value;
+    alert(`Thank you, ${name}! Your order has been placed.`);
+    localStorage.removeItem("cart"); // Clear cart after order
+    window.location.href = "index.html";
+  });
+</script>
+</body>
+</html>

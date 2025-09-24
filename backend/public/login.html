@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login — BookNest Online Bookstore</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Light/Dark Toggle -->
+  <input type="checkbox" id="theme-checkbox" aria-label="Toggle Light/Dark Mode"/>
+  <label for="theme-checkbox" class="theme-switch">🌙 Light / ☀️ Dark</label>
+
+  <div class="site">
+    <header class="site-header container flex between center wrap">
+      <a class="brand" href="index.html"><img src="images/logo.png" alt="BookNest Logo"/><span>BookNest</span></a>
+      <nav class="nav flex center wrap" role="navigation" aria-label="Main navigation">
+        <a href="index.html" class="reveal">Home</a>
+        <a href="shop.html" class="reveal">Shop</a>
+        <a href="categories.html" class="reveal">Categories</a>
+        <a href="contact.html" class="reveal">Contact</a>
+
+        <div class="nav-right">
+          <a href="cart.html" class="badge">🛒 <span id="cart-count">0</span></a>
+          <a href="login.html" class="login-btn">Login</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="card section-spacing reveal" style="max-width:400px; margin:3rem auto;">
+        <h2>Login to BookNest</h2>
+        <p>Enter your email and password to access your account.</p>
+        
+        <form id="login-form">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required />
+
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required />
+
+          <button type="submit" class="btn">Login</button>
+        </form>
+
+        <p style="margin-top:1rem;">Don't have an account? <a href="register.html">Register here</a>.</p>
+      </section>
+    </main>
+
+    <footer class="site-footer container">
+      <p>© <span id="year"></span> BookNest Online Bookstore</p>
+      <address>
+        Email: <a href="mailto:support@booknest.com">support@booknest.com</a><br/>
+        Phone: +251 912 345 678
+      </address>
+      <p>Delivering your favorite books right to your door.</p>
+    </footer>
+  </div>
+
+  <script src="js/login.js"></script>
+</body>
+</html>

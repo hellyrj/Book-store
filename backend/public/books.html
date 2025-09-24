@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bookstore - All Books</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>Online Bookstore</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="books.html">All Books</a></li>
+        <li><a href="categories.html">Categories</a></li>
+        <li id="login-link"><a href="login.html">Login</a></li>
+        <li id="register-link"><a href="register.html">Register</a></li>
+        <li id="orders-link" class="hidden"><a href="orders.html">My Orders</a></li>
+        <li id="admin-link" class="hidden"><a href="admin.html">Admin</a></li>
+        <li id="logout-link" class="hidden"><a href="#" onclick="logout()">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>All Books</h2>
+    <div id="books-container" class="grid"></div>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      loadBooks();
+    });
+  </script>
+</body>
+</html>

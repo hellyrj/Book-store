@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact BookNest — Your Online Bookstore</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Light/Dark Mode Toggle -->
+  <input type="checkbox" id="theme-checkbox" aria-label="Toggle Light/Dark Mode"/>
+  <label for="theme-checkbox" class="theme-switch">🌙 Light / ☀️ Dark</label>
+
+  <div class="site">
+    <header class="site-header container flex between center wrap">
+      <a class="brand" href="index.html"><img src="images/logo.png" alt="BookNest Logo"/><span>BookNest</span></a>
+    <nav class="nav flex center wrap" role="navigation" aria-label="Main navigation">
+  <a href="index.html" class="reveal">Home</a>
+  <a href="shop.html" class="reveal">Shop</a>
+  <a href="categories.html" class="reveal">Categories</a>
+  <a href="contact.html" class="reveal">Contact</a>
+
+  <!-- Right side: Cart + Login -->
+  <div class="nav-right">
+    <a href="cart.html" class="badge">🛒 <span id="cart-count">0</span></a>
+    <a href="login.html" class="login-btn">Login</a>
+  </div>
+</nav>
+
+    </header>
+
+    <section class="hero container reveal">
+      <h1>Contact Us</h1>
+      <p>Have questions about our books or services? Send us a message!</p>
+    </section>
+
+    <main class="container">
+      <section class="card section-spacing reveal" style="max-width:500px; margin:2rem auto;">
+        <h2>Get in Touch</h2>
+        <p>Fill out the form below and we’ll get back to you as soon as possible:</p>
+
+        <form action="https://formspree.io/f/mpwlnggb" method="POST" target="_blank">
+          <label for="name">Your Name:</label>
+          <input type="text" id="name" name="name" required aria-required="true"/>
+          <label for="email">Your Email:</label>
+          <input type="email" id="email" name="email" required aria-required="true"/>
+          <label for="subject">Subject:</label>
+          <input type="text" id="subject" name="subject" required aria-required="true"/>
+          <label for="message">Your Message:</label>
+          <textarea id="message" name="message" required aria-required="true"></textarea>
+          <button type="submit" class="btn">Send Message</button>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer container">
+      <p>© <span id="year"></span> BookNest Online Bookstore</p>
+      <address>
+        Email: <a href="mailto:support@booknest.com">support@booknest.com</a><br/>
+        Phone: +251 912 345 678
+      </address>
+      <p>Delivering your favorite books right to your door.</p>
+    </footer>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
