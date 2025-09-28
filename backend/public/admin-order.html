@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Orders - BookNest</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .orders-container {
+      margin: 20px 0;
+    }
+    .order-card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .order-header {
+      display: flex;
+      justify-content: between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .order-status {
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+    .status-pending { background: #fff3cd; color: #856404; }
+    .status-paid { background: #d1ecf1; color: #0c5460; }
+    .status-rejected { background: #f8d7da; color: #721c24; }
+    .order-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    .screenshot-preview {
+      max-width: 200px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .verification-actions {
+      margin-top: 15px;
+      display: flex;
+      gap: 10px;
+    }
+    .notification-badge {
+      background: #28a745;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container flex between center wrap">
+      <a class="brand" href="index.html">
+        <i class="fas fa-book-open"></i><span>BookNest Admin</span>
+      </a>
+      <nav class="nav flex center wrap">
+        <a href="admin-dashboard.html">Dashboard</a>
+        <a href="admin-orders.html" class="active">Orders</a>
+        <a href="admin-books.html">Books</a>
+        <a href="index.html">Store Front</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1><i class="fas fa-shopping-cart"></i> Order Management</h1>
+    
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('pending')">Pending Verification</button>
+      <button class="tab-btn" onclick="showTab('all')">All Orders</button>
+    </div>
+
+    <div id="pending-orders" class="tab-content">
+      <h2>Orders Pending Verification</h2>
+      <div id="pending-orders-list" class="orders-container">
+        <div class="loading">Loading pending orders...</div>
+      </div>
+    </div>
+
+    <div id="all-orders" class="tab-content" style="display: none;">
+      <h2>All Orders</h2>
+      <div id="all-orders-list" class="orders-container">
+        <div class="loading">Loading all orders...</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Verification Modal -->
+  <div id="verification-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h3>Verify Payment</h3>
+      <div id="verification-details"></div>
+      <div class="modal-actions">
+        <button class="btn btn-success" onclick="verifyPayment('approve')">
+          <i class="fas fa-check"></i> Approve Payment
+        </button>
+        <button class="btn btn-danger" onclick="verifyPayment('reject')">
+          <i class="fas fa-times"></i> Reject Payment
+        </button>
+        <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentOrderId = null;
+
+    // Check admin authentication
+    const token = sessionStorage.getItem('token');
+    const user = JSON.parse(sessionStorage.getItem('user'));
+
+    if (!token || !user || user.role !== 'admin') {
+      alert('Admin access required');
+      window.location.href = 'login.html';
+    }
+
+    async function loadPendingOrders() {
+      try {
+        const response = await fetch('/api/orders/pending-verification', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          displayPendingOrders(result.data);
+        } else {
+          throw new Error(result.error);
+        }
+      } catch (error) {
+        document.getElementById('pending-orders-list').innerHTML = 
+          `<div class="error">Error loading orders: ${error.message}</div>`;
+      }
+    }
+
+    function displayPendingOrders(orders) {
+      const container = document.getElementById('pending-orders-list');
+      
+      if (orders.length === 0) {
+        container.innerHTML = '<div class="empty-state">No orders pending verification</div>';
+        return;
+      }
+
+      container.innerHTML = orders.map(order => `
+        <div class="order-card">
+          <div class="order-header">
+            <h3>Order #${order.order_id} - $${order.total_price}</h3>
+            <span class="order-status status-pending">Pending Verification</span>
+          </div>
+          
+          <div class="order-details">
+            <div>
+              <p><strong>Customer:</strong> ${order.full_name} (${order.user_email})</p>
+              <p><strong>Phone:</strong> ${order.phone_number}</p>
+              <p><strong>Shipping:</strong> ${order.shipping_address}, ${order.city}</p>
+              <p><strong>Payment Method:</strong> ${order.payment_method}</p>
+              <p><strong>Date:</strong> ${new Date(order.created_at).toLocaleDateString()}</p>
+            </div>
+            
+            <div>
+              <h4>Items:</h4>
+              <ul>
+                ${order.items.map(item => `
+                  <li>${item.title} - ${item.quantity} x $${item.price}</li>
+                `).join('')}
+              </ul>
+              
+              ${order.payment_screenshot ? `
+                <h4>Payment Screenshot:</h4>
+                <img src="${order.payment_screenshot}" 
+                     alt="Payment Screenshot" 
+                     class="screenshot-preview"
+                     onclick="viewScreenshot('${order.payment_screenshot}')">
+              ` : ''}
+            </div>
+          </div>
+          
+          <div class="verification-actions">
+            <button class="btn btn-success" onclick="openVerificationModal(${order.order_id})">
+              <i class="fas fa-check-circle"></i> Verify Payment
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openVerificationModal(orderId) {
+      currentOrderId = orderId;
+      document.getElementById('verification-modal').style.display = 'flex';
+      
+      document.getElementById('verification-details').innerHTML = `
+        <p>Are you sure you want to verify payment for Order #${orderId}?</p>
+        <p>This will notify the customer via email.</p>
+      `;
+    }
+
+    async function verifyPayment(action) {
+      if (!currentOrderId) return;
+
+      try {
+        const response = await fetch(`/api/orders/verify-payment/${currentOrderId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ action })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showNotification(
+            `Payment ${action}ed successfully! ${result.email_sent ? 'Customer notified via email.' : ''}`,
+            'success'
+          );
+          closeModal();
+          await loadPendingOrders();
+        } else {
+          throw new Error(result.error);
+        }
+      } catch (error) {
+        showNotification(`Error: ${error.message}`, 'error');
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('verification-modal').style.display = 'none';
+      currentOrderId = null;
+    }
+
+    function showTab(tabName) {
+      // Hide all tab contents
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.style.display = 'none';
+      });
+      
+      // Remove active class from all buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Show selected tab and activate button
+      document.getElementById(`${tabName}-orders`).style.display = 'block';
+      event.currentTarget.classList.add('active');
+
+      // Load data for the tab
+      if (tabName === 'all') {
+        loadAllOrders();
+      }
+    }
+
+    function showNotification(message, type) {
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        border-radius: 5px;
+        color: white;
+        z-index: 10000;
+        background: ${type === 'success' ? '#28a745' : '#dc3545'};
+      `;
+      notification.innerHTML = message;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        document.body.removeChild(notification);
+      }, 5000);
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      loadPendingOrders();
+    });
+  </script>
+</body>
+</html>

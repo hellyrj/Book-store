@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+  
+
   const form = document.getElementById("login-form");
 
   form.addEventListener("submit", async (e) => {
@@ -15,21 +17,22 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const data = await res.json();
+      console.log("login response fromm backend:", data);
 
       if (!res.ok) {
         alert(data.error || "Login failed");
         return;
       }
 
-      // ✅ Store JWT token in localStorage
-      localStorage.setItem("token", data.token);
+      // ✅ Store JWT token in sessionStorage
+      sessionStorage.setItem("token", data.token);
 
       // ✅ Store user info
-      localStorage.setItem("user", JSON.stringify(data.user));
+      sessionStorage.setItem("user", JSON.stringify(data.user));
 
       // ✅ Redirect based on role
       if (data.user.role === "admin") {
-        window.location.href = "admin.html";
+        window.location.href = "admin-order.html";
       } else {
         window.location.href = "index.html";
       }

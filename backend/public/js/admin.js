@@ -13,9 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeEdit = document.getElementById("close-edit");
 
   // Auth
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const user = (() => {
-    try { return JSON.parse(localStorage.getItem("user")); } catch(e){ return null; }
+    try { return JSON.parse(sessionStorage.getItem("user")); } catch(e){ return null; }
   })();
 
   if (!token || !user || user.role !== "admin") {
@@ -270,8 +270,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ----- Logout -----
   logoutBtn.addEventListener("click", () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
     window.location.href = "login.html";
   });
 

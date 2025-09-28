@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment Success - BookNest</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header container flex between center wrap">
+    <a class="brand" href="index.html">
+      <i class="fas fa-book-open"></i><span>BookNest</span>
+    </a>
+  </header>
+
+  <main class="container">
+    <div class="payment-status success">
+      <i class="fas fa-check-circle"></i>
+      <h1>Payment Successful!</h1>
+      <p>Thank you for your purchase. Your order has been confirmed.</p>
+      <div id="order-details">
+        <!-- Order details will be loaded here -->
+      </div>
+      <div class="action-buttons">
+        <a href="index.html" class="btn">Continue Shopping</a>
+        <a href="orders.html" class="btn btn-secondary">View Orders</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Extract order details from URL or session storage
+    document.addEventListener('DOMContentLoaded', async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const tx_ref = urlParams.get('tx_ref');
+      
+      if (tx_ref) {
+        try {
+          const response = await fetch(`/api/orders/verify-payment/${tx_ref}`, {
+            headers: {
+              'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+            }
+          });
+          
+          const result = await response.json();
+          
+          if (result.success) {
+            document.getElementById('order-details').innerHTML = `
+              <p><strong>Order ID:</strong> #${result.data.order_id}</p>
+              <p><strong>Amount:</strong> $${result.data.total_price}</p>
+              <p><strong>Status:</strong> ${result.data.status}</p>
+            `;
+          }
+        } catch (error) {
+          console.error('Error verifying payment:', error);
+        }
+      }
+    });
+  </script>
+</body>
+</html>

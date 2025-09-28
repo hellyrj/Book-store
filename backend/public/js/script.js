@@ -17,7 +17,7 @@ function showSection(sectionId) {
 
 // Check if user is logged in
 function checkAuth() {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (token) {
         try {
             const payload = JSON.parse(atob(token.split('.')[1]));
@@ -33,14 +33,14 @@ function checkAuth() {
             document.getElementById('logoutLink').style.display = 'inline';
         } catch (e) {
             console.error('Invalid token');
-            localStorage.removeItem('token');
+            sessionStorage.removeItem('token');
         }
     }
 }
 
 // Logout function
 function logout() {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     currentUser = null;
     document.getElementById('loginLink').style.display = 'inline';
     document.getElementById('registerLink').style.display = 'inline';
@@ -96,7 +96,7 @@ async function loadOrders() {
     try {
         const response = await fetch(`${API_BASE}/orders`, {
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                'Authorization': `Bearer ${sessionStorage.getItem('token')}`
             }
         });
         const orders = await response.json();
@@ -128,7 +128,7 @@ async function addToOrder(bookId) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                'Authorization': `Bearer ${sessionStorage.getItem('token')}`
             },
             body: JSON.stringify({
                 book_id: bookId,
@@ -165,7 +165,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         const data = await response.json();
         
         if (response.ok) {
-            localStorage.setItem('token', data.token);
+            sessionStorage.setItem('token', data.token);
             checkAuth();
             showSection('books');
             alert('Login successful!');

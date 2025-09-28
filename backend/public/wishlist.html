@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Wishlist — BookNest</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/wishlist.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container flex between center wrap">
+      <a class="brand" href="index.html">
+        <i class="fas fa-book-open"></i><span>BookNest</span>
+      </a>
+      <nav class="nav flex center wrap">
+        <a href="index.html">Home</a>
+        <a href="categories.html">Categories</a>
+        <a href="contact.html">Contact</a>
+        <div class="nav-right">
+          <a href="wishlist.html" class="badge active">
+            <i class="fas fa-heart"></i> 
+            <span id="wishlist-count">0</span>
+          </a>
+          <a href="cart.html" class="badge">
+            <i class="fas fa-shopping-cart"></i> 
+            <span id="cart-count">0</span>
+          </a>
+          <a href="login.html" class="login-btn">Login</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="wishlist-header">
+      <h1><i class="fas fa-heart"></i> My Wishlist</h1>
+      <p>Save books you want to read later</p>
+      <div id="wishlist-user-info" class="wishlist-user-info"></div>
+    </div>
+
+    <div class="wishlist-actions">
+      <a href="categories.html" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Continue Shopping
+      </a>
+      <button id="clear-wishlist-btn" class="btn btn-danger" style="display: none;">
+        <i class="fas fa-trash"></i> Clear Wishlist
+      </button>
+    </div>
+
+    <!-- Wishlist Items -->
+    <section id="wishlist-section">
+      <div class="wishlist-grid" id="wishlist-grid">
+        <div class="loading">
+          <div class="spinner"></div>
+          Loading your wishlist...
+        </div>
+      </div>
+
+      <!-- Empty Wishlist Message -->
+      <div id="empty-wishlist-message" class="empty-wishlist" style="display: none;">
+        <i class="fas fa-heart"></i>
+        <h2>Your wishlist is empty</h2>
+        <p>Start adding books you'd like to read later!</p>
+        <a href="categories.html" class="btn">
+          <i class="fas fa-book"></i> Browse Books
+        </a>
+      </div>
+
+      <!-- Login Required Message -->
+      <div id="login-required-message" class="login-required" style="display: none;">
+        <i class="fas fa-exclamation-circle"></i>
+        <h2>Login Required</h2>
+        <p>You need to be logged in to view your wishlist.</p>
+        <a href="login.html" class="btn">
+          <i class="fas fa-sign-in-alt"></i> Login Now
+        </a>
+        <p style="margin-top: 15px; font-size: 0.9rem;">
+          Don't have an account? <a href="register.html">Sign up here</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>BookNest</h3>
+          <p>Your premier destination for books of all genres. We're passionate about connecting readers with their next favorite book.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-goodreads"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="categories.html">Categories</a></li>
+            <li><a href="wishlist.html">Wishlist</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Customer Service</h3>
+          <ul class="footer-links">
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Contact Info</h3>
+          <ul class="footer-links">
+            <li><i class="fas fa-map-marker-alt"></i> 123 Book Street, Literary City</li>
+            <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+            <li><i class="fas fa-envelope"></i> info@booknest.com</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        <p>&copy; 2023 BookNest. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/wishlist.js"></script>
+</body>
+</html>

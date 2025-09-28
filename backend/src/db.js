@@ -20,4 +20,3 @@ export const query = (text, params) => pool.query(text, params);
 export const end = () => pool.end(); // 👈 add this
 
 export default pool;
-

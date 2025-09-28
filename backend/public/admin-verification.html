@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Payment Verification — BookNest Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Add to your existing admin CSS */
+    .verification-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .verification-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      padding: 20px;
+      border-left: 4px solid var(--warning);
+    }
+    
+    .screenshot-container {
+      margin: 15px 0;
+      text-align: center;
+    }
+    
+    .screenshot-container img {
+      max-width: 100%;
+      max-height: 300px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    
+    .verification-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .btn-approve {
+      background: var(--success);
+      color: white;
+    }
+    
+    .btn-reject {
+      background: var(--danger);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container flex between center wrap">
+      <a class="brand" href="index.html">
+        <i class="fas fa-book-open"></i><span>BookNest</span>
+        <span class="admin-badge">Admin</span>
+      </a>
+      <nav class="nav flex center wrap">
+        <a href="index.html">Home</a>
+        <a href="admin.html">Books Management</a>
+        <a href="admin-order.html">Orders</a>
+        <a href="admin-verification.html" class="active">Payment Verification</a>
+        <a href="logout.html">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="admin-dashboard container">
+    <div class="dashboard-header">
+      <h1><i class="fas fa-check-circle"></i> Payment Verification</h1>
+      <p>Review and verify payment screenshots</p>
+    </div>
+
+    <div class="verification-grid" id="verification-container">
+      <div class="loading">
+        <div class="spinner"></div>
+        Loading pending verifications...
+      </div>
+    </div>
+  </main>
+
+  <script>
+    class PaymentVerification {
+      constructor() {
+        this.token = sessionStorage.getItem("token");
+        this.user = JSON.parse(sessionStorage.getItem("user"));
+        this.apiBase = "http://localhost:3000/api/orders";
+        this.init();
+      }
+
+      async init() {
+        if (!this.token || !this.user || this.user.role !== 'admin') {
+          alert("Admin access required");
+          window.location.href = "login.html";
+          return;
+        }
+        await this.loadPendingVerifications();
+      }
+
+      async loadPendingVerifications() {
+        try {
+          const response = await fetch(`${this.apiBase}/pending-verification`, {
+            headers: { 
+              "Authorization": `Bearer ${this.token}`,
+              "Content-Type": "application/json"
+            }
+          });
+
+          const result = await response.json();
+
+          if (!response.ok) throw new Error(result.error);
+          
+          this.displayVerifications(result.data);
+        } catch (error) {
+          document.getElementById('verification-container').innerHTML = `
+            <div class="error-message">
+              <i class="fas fa-exclamation-triangle"></i> ${error.message}
+            </div>
+          `;
+        }
+      }
+
+      displayVerifications(orders) {
+        const container = document.getElementById('verification-container');
+        
+        if (!orders || orders.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-check-circle"></i>
+              <p>No pending verifications</p>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = orders.map(order => `
+          <div class="verification-card">
+            <h3>Order #${order.order_id}</h3>
+            <p><strong>Customer:</strong> ${order.full_name} (${order.user_email})</p>
+            <p><strong>Phone:</strong> ${order.phone_number}</p>
+            <p><strong>Total:</strong> $${order.total_price}</p>
+            <p><strong>Shipping:</strong> ${order.shipping_address}, ${order.city}</p>
+            
+            <div class="screenshot-container">
+              <strong>Payment Screenshot:</strong>
+              ${order.payment_screenshot ? 
+                `<img src="${order.payment_screenshot}" alt="Payment Screenshot" onclick="this.style.maxHeight='none'">` : 
+                '<p>No screenshot provided</p>'
+              }
+            </div>
+
+            <div class="order-items">
+              <strong>Items:</strong>
+              <ul>
+                ${order.items.map(item => 
+                  `<li>${item.title} - ${item.quantity} x $${item.price}</li>`
+                ).join('')}
+              </ul>
+            </div>
+
+            <div class="verification-actions">
+              <button class="btn btn-approve" onclick="paymentVerification.verifyPayment(${order.order_id}, 'approve')">
+                <i class="fas fa-check"></i> Approve
+              </button>
+              <button class="btn btn-reject" onclick="paymentVerification.verifyPayment(${order.order_id}, 'reject')">
+                <i class="fas fa-times"></i> Reject
+              </button>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      async verifyPayment(orderId, action) {
+        if (!confirm(`Are you sure you want to ${action} this payment?`)) return;
+
+        try {
+          const response = await fetch(`${this.apiBase}/verify-payment/${orderId}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${this.token}`
+            },
+            body: JSON.stringify({ action })
+          });
+
+          const result = await response.json();
+
+          if (!response.ok) throw new Error(result.error);
+          
+          alert(`Payment ${action}d successfully!`);
+          await this.loadPendingVerifications();
+        } catch (error) {
+          alert(`Error: ${error.message}`);
+        }
+      }
+    }
+
+    let paymentVerification;
+    document.addEventListener("DOMContentLoaded", () => {
+      paymentVerification = new PaymentVerification();
+    });
+  </script>
+</body>
+</html>

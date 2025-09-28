@@ -1,70 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BookNest — Cart</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <title>My Cart — BookNest</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/cart.css">
+  <style>
+    .checkout-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .checkout-form {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .checkout-form h3 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 15px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    .screenshot-preview {
+      margin-top: 10px;
+    }
+
+    .screenshot-preview-content {
+      position: relative;
+      display: inline-block;
+    }
+
+    .screenshot-preview img {
+      max-width: 200px;
+      max-height: 200px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .remove-screenshot {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .checkout-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+
+    .btn-primary {
+      background: #4a6fa5;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #3a5a8c;
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #545b62;
+    }
+
+    .btn-danger {
+      background: #dc3545;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #c82333;
+    }
+
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 20px;
+      border-radius: 5px;
+      color: white;
+      z-index: 10000;
+      animation: slideIn 0.3s ease;
+    }
+
+    .notification.success {
+      background: #28a745;
+    }
+
+    .notification.error {
+      background: #dc3545;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .cart-user-info {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 10px 0;
+      border-left: 4px solid #4a6fa5;
+    }
+
+    .cart-user-info p {
+      margin: 5px 0;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
-  <!-- Light/Dark Toggle -->
-  <input type="checkbox" id="theme-checkbox" aria-label="Toggle Light/Dark Mode"/>
-  <label for="theme-checkbox" class="theme-switch">🌙 Light / ☀️ Dark</label>
-
-  <div class="site">
-    <header class="site-header container flex between center wrap">
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container flex between center wrap">
       <a class="brand" href="index.html">
-        <img src="images/logo.png" alt="BookNest Logo" />
-        <span>BookNest</span>
+        <i class="fas fa-book-open"></i><span>BookNest</span>
       </a>
-      <nav class="nav flex center wrap" role="navigation" aria-label="Main navigation">
-  <a href="index.html" class="reveal">Home</a>
-  <a href="shop.html" class="reveal">Shop</a>
-  <a href="categories.html" class="reveal">Categories</a>
-  <a href="contact.html" class="reveal">Contact</a>
+      <nav class="nav flex center wrap">
+        <a href="index.html">Home</a>
+        <a href="categories.html">Categories</a>
+        <a href="contact.html">Contact</a>
+        <div class="nav-right">
+          <a href="cart.html" class="badge">
+            <i class="fas fa-shopping-cart"></i> 
+            <span id="cart-count">0</span>
+          </a>
+            <a href="orders.html">
+    <i class="fas fa-box"></i> My Orders
+  </a>
+          
+          <a href="login.html" class="login-btn">Login</a>
+        </div>
+      </nav>
+    </div>
+  </header>
 
-  <!-- Right side: Cart + Login -->
-  <div class="nav-right">
-    <a href="cart.html" class="badge">🛒 <span id="cart-count">0</span></a>
-    <a href="login.html" class="login-btn">Login</a>
-  </div>
-</nav>
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Cart Header -->
+    <div class="cart-header">
+      <h1><i class="fas fa-shopping-cart"></i> My Shopping Cart</h1>
+      <p>Review your items and proceed to checkout</p>
+      <div id="cart-user-info" class="cart-user-info"></div>
+    </div>
 
-    </header>
+    <div class="cart-actions">
+      <a href="categories.html" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Continue Shopping
+      </a>
+      <button id="clear-cart-btn" class="btn btn-danger" style="display: none;">
+        <i class="fas fa-trash"></i> Clear Cart
+      </button>
+    </div>
 
-    <main class="container reveal" style="padding-top:16px">
-      <h2>Your Cart</h2>
-      <table class="table">
+    <!-- Cart Table -->
+    <section id="cart-section">
+      <table class="cart-table">
         <thead>
           <tr>
-            <th>Item</th>
-            <th>Qty</th>
+            <th>Cover</th>
+            <th>Book Title</th>
             <th>Price</th>
-            <th>Subtotal</th>
-            <th></th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Actions</th>
           </tr>
         </thead>
-        <tbody id="cart-items">
-          <!-- Items injected by script.js -->
+        <tbody id="cart-table-body">
+          <tr>
+            <td colspan="6" class="loading">
+              <div class="spinner"></div>
+              Loading your cart...
+            </td>
+          </tr>
         </tbody>
       </table>
 
-      <div class="flex between" style="margin-top:12px; align-items:center;">
-        <div class="badge">Total: <span id="cart-total">$0.00</span></div>
-        <a class="btn" href="checkout.html">Checkout</a>
+      <!-- Cart Summary -->
+      <div class="cart-summary" id="cart-summary" style="display: none;">
+        <div class="cart-total">
+          <strong>Total: $<span id="cart-total">0.00</span></strong>
+        </div>
+        <button id="checkout-btn" class="checkout-btn">
+          <i class="fas fa-lock"></i> Proceed to Checkout
+        </button>
       </div>
-    </main>
 
-    <footer class="site-footer container">
-      <p>© <span id="year"></span> BookNest Online Bookstore</p>
-      <address>
-        Email: <a href="mailto:support@booknest.com">support@booknest.com</a><br/>
-        Phone: +251 912 345 678
-      </address>
-      <p>Delivering your favorite books right to your door.</p>
-    </footer>
-  </div>
+      <!-- Empty Cart Message -->
+      <div id="empty-cart-message" class="empty-cart" style="display: none;">
+        <i class="fas fa-shopping-cart"></i>
+        <h2>Your cart is empty</h2>
+        <p>Looks like you haven't added any books to your cart yet.</p>
+        <a href="categories.html" class="btn">
+          <i class="fas fa-book"></i> Browse Books
+        </a>
+      </div>
 
-  <script src="js/script.js"></script>
+      <!-- Login Required Message -->
+      <div id="login-required-message" class="login-required" style="display: none;">
+        <i class="fas fa-exclamation-circle"></i>
+        <h2>Login Required</h2>
+        <p>You need to be logged in to view your shopping cart.</p>
+        <a href="login.html" class="btn">
+          <i class="fas fa-sign-in-alt"></i> Login Now
+        </a>
+        <p style="margin-top: 15px; font-size: 0.9rem;">
+          Don't have an account? <a href="register.html">Sign up here</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="checkout-modal" style="display: none;">
+      <div class="checkout-form">
+        <h3><i class="fas fa-shipping-fast"></i> Checkout Information</h3>
+        
+        <form id="checkout-info-form">
+          <div class="form-group">
+            <label for="full_name">Full Name *</label>
+            <input type="text" id="full_name" name="full_name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="phone_number">Phone Number *</label>
+            <input type="tel" id="phone_number" name="phone_number" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="shipping_address">Shipping Address *</label>
+            <textarea id="shipping_address" name="shipping_address" required></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="billing_address">Billing Address</label>
+            <textarea id="billing_address" name="billing_address"></textarea>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="city">City *</label>
+              <input type="text" id="city" name="city" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="zip_code">ZIP Code</label>
+              <input type="text" id="zip_code" name="zip_code">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="payment_method">Payment Method *</label>
+            <select id="payment_method" name="payment_method" required>
+              <option value="screenshot">Upload Payment Screenshot</option>
+              <option value="cash">Cash on Delivery</option>
+            </select>
+          </div>
+          
+          <!-- Screenshot Upload Section -->
+          <div id="screenshot-section" class="form-group">
+            <label for="payment_screenshot">Payment Screenshot *</label>
+            <input type="file" id="payment_screenshot" name="payment_screenshot" 
+                   accept="image/*" required>
+            <small>Take a screenshot of your payment confirmation and upload it here</small>
+            <div id="screenshot-preview" class="screenshot-preview"></div>
+          </div>
+          
+          <div class="checkout-actions">
+            <button type="button" class="btn btn-secondary" id="cancel-checkout">Cancel</button>
+            <button type="submit" class="btn btn-primary">Submit for Verification</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>BookNest</h3>
+          <p>Your premier destination for books of all genres. We're passionate about connecting readers with their next favorite book.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-goodreads"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="categories.html">Categories</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Customer Service</h3>
+          <ul class="footer-links">
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Contact Info</h3>
+          <ul class="footer-links">
+            <li><i class="fas fa-map-marker-alt"></i> 123 Book Street, Literary City</li>
+            <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+            <li><i class="fas fa-envelope"></i> info@booknest.com</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        <p>&copy; 2023 BookNest. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/cart.js"></script>
 </body>
 </html>
