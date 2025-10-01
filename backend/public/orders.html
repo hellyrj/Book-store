@@ -27,9 +27,9 @@
            <div class="nav-overlay" id="navOverlay"></div>
            
             <nav class="nav flex center wrap" id="mainNav">
-                <a href="index.html" class="active">Home</a>
+                <a href="index.html">Home</a>
                 <a href="categories.html">Categories</a>
-                <a href="orders.html">Orders</a>
+                <a href="orders.html" class="active">Orders</a>
                 <a href="contact.html">Contact</a>
                 <div class="nav-right">
                     <a href="wishlist.html" class="badge">
@@ -40,7 +40,14 @@
                         <i class="fas fa-shopping-cart"></i> 
                         <span id="cart-count">0</span>
                     </a>
-                    <a href="login.html" class="login-btn">Login</a>
+                    <!-- Login button - hidden when logged in -->
+                    <a href="login.html" class="login-btn" id="loginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                    <!-- Logout button - shown when logged in -->
+                    <button class="logout-btn" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
                 </div>
             </nav>
         </div>
@@ -103,7 +110,7 @@
       </div>
       
       <div class="copyright">
-        <p>&copy; 2023 CozyReads. All rights reserved.</p>
+        <p>&copy; 2025 CozyReads. All rights reserved.</p>
       </div>
     </div>
   </footer>

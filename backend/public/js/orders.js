@@ -2,7 +2,64 @@
 document.addEventListener('DOMContentLoaded', function() {
     initMobileMenu();
     new OrderManager();
+    initAuthUI();
 });
+
+// Initialize authentication UI
+function initAuthUI() {
+    const token = sessionStorage.getItem("token");
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    if (token && user) {
+        // User is logged in - show logout button, hide login button
+        if (loginBtn) loginBtn.style.display = 'none';
+        if (logoutBtn) logoutBtn.style.display = 'flex';
+        
+        // Add user info if needed
+        // this.addUserInfo(user);
+    } else {
+        // User is not logged in - show login button, hide logout button
+        if (loginBtn) loginBtn.style.display = 'flex';
+        if (logoutBtn) logoutBtn.style.display = 'none';
+    }
+
+    // Add logout functionality
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', handleLogout);
+    }
+}
+
+// Handle logout
+function handleLogout() {
+    // Clear session storage
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
+    
+    // Show confirmation message
+    alert('You have been logged out successfully.');
+    
+    // Redirect to home page or refresh current page
+    window.location.href = 'index.html';
+}
+
+// Add user info to navigation (optional)
+function addUserInfo(user) {
+    const navRight = document.querySelector('.nav-right');
+    const userInfo = document.createElement('div');
+    userInfo.className = 'user-info';
+    userInfo.innerHTML = `
+        <div class="user-avatar">${user.name ? user.name.charAt(0).toUpperCase() : 'U'}</div>
+        <span>Hi, ${user.name || 'User'}</span>
+    `;
+    
+    // Insert user info before the logout button
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        navRight.insertBefore(userInfo, logoutBtn);
+    }
+}
 
 // Mobile menu functionality
 function initMobileMenu() {
@@ -62,6 +119,9 @@ class OrderManager {
     }
 
     async init() {
+        // Update auth UI on initialization
+        initAuthUI();
+        
         // Check authentication
         if (!this.token || !this.user) {
             this.showLoginRequired();

@@ -29,7 +29,7 @@ app.use(express.json());
 
 // Serve static frontend files (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, "../public")));
-
+  
 // API Routes
 app.use("/api/users", userRoutes);
 app.use("/api/books", bookRoutes);

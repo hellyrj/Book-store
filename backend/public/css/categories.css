@@ -4,8 +4,8 @@
   --beige: #e6d5b8;
   --beige-light: #f0e6d2;
   --cream: #f6f3ebff;
-  --cream-dark: #f5ebd0;
-  --charcoal: #2c2c2c;
+  --cream-dark: #d3c8aeff;
+  --charcoal: #484545ff; /* text / footer */
   --gold: #d4af37;
   --gold-light: #e6c86e;
   --radius: 16px;
@@ -38,6 +38,7 @@ body {
   overflow-x: hidden;
 }
 
+/* Container */
 .container {
   max-width: 1280px;
   margin-inline: auto;
@@ -60,29 +61,34 @@ body {
 }
 
 .brand {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
-  font-size: 1.5rem;
-  padding: 4px 0;
-  color: var(--brown);
-}
+        display: flex;
+        align-items: center;
+         text-decoration: none;
+         font-weight: bold;
+        gap: 12px;
+      }
+      .brand .mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--brown), #3c2823);
+        display: grid;
+        place-items: center;
+        text-decoration: none;
+        color: white;
+        font-weight: 700;
+      }
+      .brand span {
+        font-weight: 800;
+        font-size: 1.25rem;
+        color: var(--brown);
+      }
 
 .brand:hover {
   color: var(--brown-light);
 }
 
-.brand i {
-  font-size: 1.6rem;
-  color: var(--gold);
-}
-
-.brand:hover i {
-  color: var(--gold-light);
-}
-
+/* Navigation */
 .nav {
   display: flex;
   align-items: center;
@@ -95,11 +101,14 @@ body {
   font-weight: 600;
   color: var(--charcoal);
   font-size: 0.95rem;
+  text-decoration: none;
+  transition: var(--transition);
 }
 
 .nav a:hover,
 .nav a.active {
   color: var(--brown);
+  background-color: var(--cream-dark);
 }
 
 .nav-right {
@@ -109,6 +118,7 @@ body {
   margin-left: 16px;
 }
 
+/* Badge & Button */
 .badge {
   padding: 8px 12px;
   border-radius: var(--radius);
@@ -118,6 +128,8 @@ body {
   align-items: center;
   gap: 6px;
   border: 1px solid var(--beige);
+  text-decoration: none;
+  transition: var(--transition);
 }
 
 .badge:hover {
@@ -151,6 +163,8 @@ body {
   font-weight: 600;
   border: 1px solid var(--brown);
   font-size: 0.9rem;
+  text-decoration: none;
+  transition: var(--transition);
 }
 
 .login-btn:hover {
@@ -619,13 +633,10 @@ main::before {
 }
 
 /* Footer */
+
 footer {
-  background: linear-gradient(
-    135deg,
-    rgba(186, 104, 200, 0.12) 0%,
-    rgba(255, 183, 77, 0.15) 50%,
-    rgba(77, 208, 225, 0.1) 100%
-  );
+ background: var(--charcoal);
+  color: white;
   position: relative;
   overflow: hidden;
 }
@@ -652,7 +663,7 @@ footer::before {
 }
 
 .footer-column h3 {
-  color: var(--brown);
+   color: white;
   font-size: 1.2rem;
   margin-bottom: 1rem;
   position: relative;
@@ -672,11 +683,14 @@ footer::before {
 
 .footer-links li {
   margin: 0.5rem 0;
+  transition: var(--transition);
+  color: white;
 }
 
 .footer-links a {
-  color: var(--charcoal);
+  color: white;
   text-decoration: none;
+  transition: var(--transition);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -684,7 +698,8 @@ footer::before {
 }
 
 .footer-links a:hover {
-  color: var(--brown);
+  color: var(--gold-light);
+  transform: translateX(6px);
 }
 
 .footer-links i {
@@ -707,19 +722,39 @@ footer::before {
   background: linear-gradient(135deg, var(--beige), var(--beige-light));
   color: var(--brown);
   border-radius: 50%;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.social-links a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
+  transition: left 0.6s ease;
+}
+
+.social-links a:hover::before {
+  left: 100%;
 }
 
 .social-links a:hover {
   background: linear-gradient(135deg, var(--brown), var(--brown-light));
   color: white;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: var(--shadow-gold);
 }
 
 .copyright {
   text-align: center;
+  color: white;
   margin-top: 40px;
   padding-top: 20px;
   border-top: 1px solid rgba(139, 69, 19, 0.1);
-  color: var(--charcoal);
   opacity: 0.8;
   position: relative;
   z-index: 1;

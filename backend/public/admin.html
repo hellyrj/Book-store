@@ -1,94 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Admin Panel — BookNest</title>
-  <link rel="stylesheet" href="css/admin.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Panel — CozyReads</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
-  <header class="admin-header">
-    <h1>📚 BookNest — Admin</h1>
-    <div class="header-right">
-      <button id="logout-btn" class="btn outline">Logout</button>
+  <header class="site-header">
+    <div class="container flex between center wrap">
+      <a class="brand" href="home.html">
+        <div class="mark">CR</div>
+        <span>CozyReads</span>
+      </a>
+      
+      <!-- Hamburger Menu Button -->
+      <button class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <!-- Navigation Overlay -->
+      <div class="nav-overlay" id="navOverlay"></div>
+      
+      <nav class="nav flex center wrap" id="mainNav">
+        <a href="admin.html" class="active"><i class="fas fa-book"></i> Books</a>
+        <a href="admin-order.html"><i class="fas fa-shopping-cart"></i> Orders</a>
+        <div class="nav-right">
+          <span class="admin-welcome"><i class="fas fa-user-shield"></i> Admin Panel</span>
+          <button class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
+      </nav>
     </div>
   </header>
 
-  <main class="admin-main container">
-    <section class="card add-card">
-      <h2>Add a New Book</h2>
-      <form id="add-book-form" class="form-grid">
-        <input id="title" placeholder="Title" required />
-        <input id="author" placeholder="Author" required />
-        <input id="isbn" placeholder="ISBN" required />
-        <input id="price" type="number" step="0.01" placeholder="Price" required />
-        <input id="stock" type="number" placeholder="Stock" required />
+  <main class="container">
+    <div class="page-header">
+      <h1><i class="fas fa-book"></i> Book Management</h1>
+      <p>Manage your bookstore inventory and book listings</p>
+    </div>
 
-        <select id="category-select" required>
-          <option value="">Select Category</option>
-        </select>
-
-        <input id="cover_url" placeholder="Cover Image URL (optional)" />
-        <textarea id="description" rows="3" placeholder="Description (optional)"></textarea>
-
-        <div class="full-row">
-          <button type="submit" class="btn primary">Add Book</button>
+    <div class="admin-stats">
+      <div class="stat-card">
+        <div class="stat-icon total">
+          <i class="fas fa-book"></i>
         </div>
-      </form>
-    </section>
-
-    <section class="card list-card">
-      <div class="list-header">
-        <h2>Manage Books</h2>
-        <input id="search-bar" placeholder="Search by title / author / isbn..." />
+        <div class="stat-info">
+          <span class="stat-number" id="total-books">0</span>
+          <span class="stat-label">Total Books</span>
+        </div>
       </div>
-
-      <div class="table-wrap">
-        <table class="books-table" aria-live="polite">
-          <thead>
-            <tr>
-              <th>Cover</th>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Category</th>
-              <th>Price</th>
-              <th>Stock</th>
-              <th class="actions-col">Actions</th>
-            </tr>
-          </thead>
-          <tbody id="books-table-body"></tbody>
-        </table>
+      <div class="stat-card">
+        <div class="stat-icon low-stock">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number" id="low-stock-count">0</span>
+          <span class="stat-label">Low Stock</span>
+        </div>
       </div>
-    </section>
+      <div class="stat-card">
+        <div class="stat-icon categories">
+          <i class="fas fa-tags"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number" id="categories-count">0</span>
+          <span class="stat-label">Categories</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-main">
+      <section class="card add-card">
+        <div class="card-header">
+          <h2><i class="fas fa-plus-circle"></i> Add New Book</h2>
+          <p>Add a new book to your inventory</p>
+        </div>
+        <form id="add-book-form" class="form-grid">
+          <div class="form-group">
+            <label for="title" class="form-label">
+              <i class="fas fa-heading"></i> Title
+            </label>
+            <input id="title" placeholder="Enter book title" required class="form-input" />
+          </div>
+
+          <div class="form-group">
+            <label for="author" class="form-label">
+              <i class="fas fa-user-pen"></i> Author
+            </label>
+            <input id="author" placeholder="Enter author name" required class="form-input" />
+          </div>
+
+          <div class="form-group">
+            <label for="isbn" class="form-label">
+              <i class="fas fa-barcode"></i> ISBN
+            </label>
+            <input id="isbn" placeholder="Enter ISBN" required class="form-input" />
+          </div>
+
+          <div class="form-group">
+            <label for="price" class="form-label">
+              <i class="fas fa-tag"></i> Price
+            </label>
+            <input id="price" type="number" step="0.01" placeholder="Enter price" required class="form-input" />
+          </div>
+
+          <div class="form-group">
+            <label for="stock" class="form-label">
+              <i class="fas fa-boxes"></i> Stock
+            </label>
+            <input id="stock" type="number" placeholder="Enter stock quantity" required class="form-input" />
+          </div>
+
+          <div class="form-group">
+            <label for="category-select" class="form-label">
+              <i class="fas fa-tag"></i> Category
+            </label>
+            <select id="category-select" required class="form-input">
+              <option value="">Select Category</option>
+            </select>
+          </div>
+
+          <div class="form-group full-row">
+            <label for="cover_url" class="form-label">
+              <i class="fas fa-image"></i> Cover Image URL
+            </label>
+            <input id="cover_url" placeholder="Enter cover image URL (optional)" class="form-input" />
+          </div>
+
+          <div class="form-group full-row">
+            <label for="description" class="form-label">
+              <i class="fas fa-align-left"></i> Description
+            </label>
+            <textarea id="description" rows="4" placeholder="Enter book description (optional)" class="form-input"></textarea>
+          </div>
+
+          <div class="form-actions full-row">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-plus"></i> Add Book
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card list-card">
+        <div class="card-header">
+          <h2><i class="fas fa-list"></i> Manage Books</h2>
+          <p>Search and manage your book inventory</p>
+        </div>
+        
+        <div class="search-section">
+          <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input id="search-bar" placeholder="Search by title, author, or ISBN..." class="search-input" />
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="books-table" aria-live="polite">
+            <thead>
+              <tr>
+                <th>Cover</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th class="actions-col">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="books-table-body">
+              <tr>
+                <td colspan="7" class="loading-cell">
+                  <div class="loading">
+                    <div class="spinner"></div>
+                    Loading books...
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
   </main>
 
   <!-- Edit Popup Modal -->
   <div id="edit-modal" class="modal hidden" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="modal-inner" role="document">
-      <button id="close-edit" class="modal-close" aria-label="Close edit dialog">&times;</button>
-      <h3>Edit Book</h3>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-edit"></i> Edit Book</h3>
+        <button id="close-edit" class="modal-close" aria-label="Close edit dialog">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
 
-      <form id="edit-book-form" class="form-grid">
-        <input type="hidden" id="edit-book-id" />
+      <div class="modal-body">
+        <form id="edit-book-form" class="form-grid">
+          <input type="hidden" id="edit-book-id" />
 
-        <input id="edit-title" placeholder="Title" required />
-        <input id="edit-author" placeholder="Author" required />
-        <input id="edit-isbn" placeholder="ISBN" required />
-        <input id="edit-price" type="number" step="0.01" placeholder="Price" required />
-        <input id="edit-stock" type="number" placeholder="Stock" required />
+          <div class="form-group">
+            <label for="edit-title" class="form-label">Title</label>
+            <input id="edit-title" placeholder="Enter book title" required class="form-input" />
+          </div>
 
-        <select id="edit-category" required>
-          <option value="">Select Category</option>
-        </select>
+          <div class="form-group">
+            <label for="edit-author" class="form-label">Author</label>
+            <input id="edit-author" placeholder="Enter author name" required class="form-input" />
+          </div>
 
-        <input id="edit-cover_url" placeholder="Cover Image URL" />
-        <textarea id="edit-description" rows="3" placeholder="Description"></textarea>
+          <div class="form-group">
+            <label for="edit-isbn" class="form-label">ISBN</label>
+            <input id="edit-isbn" placeholder="Enter ISBN" required class="form-input" />
+          </div>
 
-        <div class="full-row modal-actions">
-          <button type="submit" class="btn primary">Save Changes</button>
-          <button type="button" id="cancel-edit" class="btn outline">Cancel</button>
-        </div>
-      </form>
+          <div class="form-group">
+            <label for="edit-price" class="form-label">Price</label>
+            <input id="edit-price" type="number" step="0.01" placeholder="Enter price" required class="form-input" />
+          </div>
+
+          <div class="form-group">
+            <label for="edit-stock" class="form-label">Stock</label>
+            <input id="edit-stock" type="number" placeholder="Enter stock quantity" required class="form-input" />
+          </div>
+
+          <div class="form-group">
+            <label for="edit-category" class="form-label">Category</label>
+            <select id="edit-category" required class="form-input">
+              <option value="">Select Category</option>
+            </select>
+          </div>
+
+          <div class="form-group full-row">
+            <label for="edit-cover_url" class="form-label">Cover Image URL</label>
+            <input id="edit-cover_url" placeholder="Enter cover image URL" class="form-input" />
+          </div>
+
+          <div class="form-group full-row">
+            <label for="edit-description" class="form-label">Description</label>
+            <textarea id="edit-description" rows="4" placeholder="Enter book description" class="form-input"></textarea>
+          </div>
+
+          <div class="modal-actions">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i> Save Changes
+            </button>
+            <button type="button" id="cancel-edit" class="btn btn-secondary">
+              <i class="fas fa-times"></i> Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 

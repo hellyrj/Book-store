@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Login — BookNest Online Bookstore</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <title>Login — CozyReads Online Bookstore</title>
+  <link rel="stylesheet" href="css/login.css" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Light/Dark Toggle -->
@@ -29,12 +31,12 @@
            <div class="nav-overlay" id="navOverlay"></div>
            
             <nav class="nav flex center wrap" id="mainNav">
-                <a href="index.html" class="active">Home</a>
+                <a href="index.html">Home</a>
                 <a href="categories.html">Categories</a>
                 <a href="orders.html">Orders</a>
                 <a href="contact.html">Contact</a>
                 <div class="nav-right">
-                    <a href="wishlist.html" class="badge">
+                    <a href="wishlist.html" class="active badge">
                         <i class="fas fa-heart"></i> 
                         <span id="wishlist-count">0</span>
                     </a>
@@ -42,80 +44,180 @@
                         <i class="fas fa-shopping-cart"></i> 
                         <span id="cart-count">0</span>
                     </a>
-                    <a href="login.html" class="login-btn">Login</a>
+                    <a href="login.html" class="active login-btn">Login</a>
                 </div>
             </nav>
         </div>
     </header>
 
-    <main class="container">
-      <section class="card section-spacing reveal" style="max-width:400px; margin:3rem auto;">
-        <h2>Login to BookNest</h2>
-        <p>Enter your email and password to access your account.</p>
-        
-        <form id="login-form">
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" required />
+    <main class="main-content">
+      <!-- Decorative Background Elements -->
+      <div class="login-background">
+        <div class="bg-shape shape-1"></div>
+        <div class="bg-shape shape-2"></div>
+        <div class="bg-shape shape-3"></div>
+      </div>
 
-          <label for="password">Password:</label>
-          <input type="password" id="password" name="password" required />
+      <div class="container">
+        <div class="login-container">
+          <!-- Left Side - Illustration -->
+          <div class="login-illustration">
+            <div class="illustration-content">
+              <div class="book-stack">
+                <div class="book book-1"></div>
+                <div class="book book-2"></div>
+                <div class="book book-3"></div>
+              </div>
+              <h3>Welcome Back to CozyReads</h3>
+              <p>Continue your literary journey with us. Access your personalized bookshelf, wishlist, and order history.</p>
+              <div class="features-list">
+                <div class="feature">
+                  <span class="feature-icon">📚</span>
+                  <span>Personalized Recommendations</span>
+                </div>
+                <div class="feature">
+                  <span class="feature-icon">💝</span>
+                  <span>Save Your Wishlist</span>
+                </div>
+                <div class="feature">
+                  <span class="feature-icon">🚚</span>
+                  <span>Track Your Orders</span>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          <button type="submit" class="btn">Login</button>
-        </form>
+          <!-- Right Side - Login Form -->
+          <div class="login-form-section">
+            <div class="login-card">
+              <div class="card-header">
+                <h2>Welcome Back</h2>
+                <p>Sign in to your CozyReads account</p>
+              </div>
 
-        <p style="margin-top:1rem;">Don't have an account? <a href="register.html">Register here</a>.</p>
-      </section>
+              <form id="login-form" class="login-form">
+                <div class="form-group">
+                  <label for="email" class="form-label">
+                    <span class="label-icon">📧</span>
+                    Email Address
+                  </label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    class="form-input"
+                    placeholder="your@email.com"
+                    required 
+                  />
+                  <div class="input-decoration"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="password" class="form-label">
+                    <span class="label-icon">🔒</span>
+                    Password
+                  </label>
+                  <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    class="form-input"
+                    placeholder="Enter your password"
+                    required 
+                  />
+                  <div class="input-decoration"></div>
+                </div>
+
+                <div class="form-options">
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="remember-me" />
+                    <span class="checkmark"></span>
+                    Remember me
+                  </label>
+                  <a href="forgot-password.html" class="forgot-link">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="login-btn-primary">
+                  <span class="btn-text">Sign In</span>
+                  <span class="btn-icon">→</span>
+                </button>
+
+                <div class="divider">
+                  <span>or continue with</span>
+                </div>
+
+                <div class="social-login">
+                  <button type="button" class="social-btn google-btn">
+                    <span class="social-icon">🔍</span>
+                    Google
+                  </button>
+                  <button type="button" class="social-btn facebook-btn">
+                    <span class="social-icon">📘</span>
+                    Facebook
+                  </button>
+                </div>
+              </form>
+
+              <div class="card-footer">
+                <p>Don't have an account? 
+                  <a href="register.html" class="register-link">Create account</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer>
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-column">
-          <h3>CozyReads</h3>
-          <p>Your premier destination for books of all genres. We're passionate about connecting readers with their next favorite book.</p>
-          <div class="social-links">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-goodreads"></i></a>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-column">
+            <h3>CozyReads</h3>
+            <p>Your premier destination for books of all genres. We're passionate about connecting readers with their next favorite book.</p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-goodreads"></i></a>
+            </div>
+          </div>
+          
+          <div class="footer-column">
+            <h3>Quick Links</h3>
+            <ul class="footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="categories.html">Categories</a></li>
+              <li><a href="shop.html">Shop</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-column">
+            <h3>Customer Service</h3>
+            <ul class="footer-links">
+              <li><a href="#">Shipping Info</a></li>
+              <li><a href="#">Returns</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-column">
+            <h3>Contact Info</h3>
+            <ul class="footer-links">
+              <li><i class="fas fa-map-marker-alt"></i> 123 Book Street, Literary City</li>
+              <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+              <li><i class="fas fa-envelope"></i> info@cozyreads.com</li>
+            </ul>
           </div>
         </div>
         
-        <div class="footer-column">
-          <h3>Quick Links</h3>
-          <ul class="footer-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="categories.html">Categories</a></li>
-            <li><a href="shop.html">Shop</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-column">
-          <h3>Customer Service</h3>
-          <ul class="footer-links">
-            <li><a href="#">Shipping Info</a></li>
-            <li><a href="#">Returns</a></li>
-            <li><a href="#">FAQ</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-column">
-          <h3>Contact Info</h3>
-          <ul class="footer-links">
-            <li><i class="fas fa-map-marker-alt"></i> 123 Book Street, Literary City</li>
-            <li><i class="fas fa-phone"></i> (123) 456-7890</li>
-            <li><i class="fas fa-envelope"></i> info@cozyreads.com</li>
-          </ul>
+        <div class="copyright">
+          <p>&copy; 2025 CozyReads. All rights reserved.</p>
         </div>
       </div>
-      
-      <div class="copyright">
-        <p>&copy; 2023 CozyReads. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
+    </footer>
   </div>
 
   <script src="js/login.js"></script>

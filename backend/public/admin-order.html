@@ -3,327 +3,174 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin Orders - BookNest</title>
+  <title>Admin Orders - CozyReads</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="css/style.css">
-  <style>
-    /* Order Management Styles */
-    .orders-container {
-      margin: 20px 0;
-    }
-    
-    .order-card {
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .order-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    
-    .order-status {
-      padding: 5px 10px;
-      border-radius: 15px;
-      font-size: 0.8rem;
-      font-weight: bold;
-    }
-    
-    .status-pending { background: #fff3cd; color: #856404; }
-    .status-paid { background: #d1ecf1; color: #0c5460; }
-    .status-processing { background: #d1ecf1; color: #0c5460; }
-    .status-shipped { background: #d4edda; color: #155724; }
-    .status-delivered { background: #d4edda; color: #155724; }
-    .status-cancelled { background: #f8d7da; color: #721c24; }
-    .status-rejected { background: #f8d7da; color: #721c24; }
-    
-    .order-details {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
-    
-    .screenshot-preview {
-      max-width: 200px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    
-    .verification-actions, .order-actions {
-      margin-top: 15px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    
-    .notification-badge {
-      background: #28a745;
-      color: white;
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-size: 0.8rem;
-      margin-left: 10px;
-    }
-    
-    /* Tabs */
-    .tabs {
-      display: flex;
-      margin-bottom: 20px;
-      background: white;
-      border-radius: 10px;
-      padding: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      flex-wrap: wrap;
-    }
-    
-    .tab-btn {
-      padding: 10px 20px;
-      border: none;
-      background: none;
-      cursor: pointer;
-      border-radius: 5px;
-      margin-right: 10px;
-      transition: background-color 0.3s;
-    }
-    
-    .tab-btn.active {
-      background-color: #007bff;
-      color: white;
-    }
-    
-    .tab-btn:hover:not(.active) {
-      background-color: #e9ecef;
-    }
-    
-    .tab-content {
-      display: none;
-    }
-    
-    .tab-content.active {
-      display: block;
-    }
-    
-    /* Verification Grid */
-    .verification-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-    
-    .verification-card {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      padding: 20px;
-      border-left: 4px solid #ffc107;
-    }
-    
-    .screenshot-container {
-      margin: 15px 0;
-      text-align: center;
-    }
-    
-    .screenshot-container img {
-      max-width: 100%;
-      max-height: 300px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-    
-    /* Table Styles */
-    .orders-table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    
-    .orders-table th,
-    .orders-table td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-    
-    .orders-table th {
-      background: #f8f9fa;
-      font-weight: 600;
-    }
-    
-    .status-select {
-      padding: 6px 10px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      background: white;
-    }
-    
-    .action-buttons {
-      display: flex;
-      gap: 5px;
-    }
-    
-    .btn {
-      padding: 6px 12px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.8rem;
-      transition: background-color 0.3s;
-    }
-    
-    .btn-view { background: #17a2b8; color: white; }
-    .btn-edit { background: #28a745; color: white; }
-    .btn-approve { background: #28a745; color: white; }
-    .btn-reject { background: #dc3545; color: white; }
-    .btn-secondary { background: #6c757d; color: white; }
-    
-    .btn:hover {
-      opacity: 0.9;
-    }
-    
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .modal-content {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      max-width: 500px;
-      width: 90%;
-      max-height: 80vh;
-      overflow-y: auto;
-    }
-    
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-      justify-content: flex-end;
-    }
-    
-    /* Responsive */
-    @media (max-width: 768px) {
-      .order-details {
-        grid-template-columns: 1fr;
-      }
-      
-      .verification-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .order-header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .verification-actions, .order-actions {
-        flex-direction: column;
-      }
-      
-      .action-buttons {
-        flex-direction: column;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="css/admin-order.css">
+ 
 </head>
 <body>
-  <header class="site-header">
+ <header class="site-header">
     <div class="container flex between center wrap">
-      <a class="brand" href="index.html">
-        <i class="fas fa-book-open"></i><span>BookNest Admin</span>
+      <a class="brand" href="home.html">
+        <div class="mark">CR</div>
+        <span>CozyReads</span>
       </a>
-      <nav class="nav flex center wrap">
-        <a href="admin.html">Books</a>
-        <a href="admin-review.html">Reviews</a>
+      
+      <!-- Hamburger Menu Button -->
+      <button class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <!-- Navigation Overlay -->
+      <div class="nav-overlay" id="navOverlay"></div>
+      
+      <nav class="nav flex center wrap" id="mainNav">
+        <a href="admin.html"><i class="fas fa-book"></i> Books</a>
+        <a href="admin-order.html" class="active"><i class="fas fa-shopping-cart"></i> Orders</a>
+        <div class="nav-right">
+          <span class="admin-welcome"><i class="fas fa-user-shield"></i> Admin Panel</span>
+          <button class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
       </nav>
     </div>
   </header>
 
   <main class="container">
-    <h1><i class="fas fa-shopping-cart"></i> Order Management</h1>
+    <div class="page-header">
+      <h1><i class="fas fa-shopping-cart"></i> Order Management</h1>
+      <p>Manage and track customer orders efficiently</p>
+    </div>
     
-    <div class="tabs">
-      <button class="tab-btn active" onclick="adminOrders.showTab('pending-verification')">
-        Pending Verification <span id="pending-badge" class="notification-badge">0</span>
-      </button>
-      <button class="tab-btn" onclick="adminOrders.showTab('all-orders')">All Orders</button>
-      <button class="tab-btn" onclick="adminOrders.showTab('order-table')">Table View</button>
-    </div>
-
-    <!-- Pending Verification Tab -->
-    <div id="pending-verification" class="tab-content active">
-      <h2>Orders Pending Verification</h2>
-      <div id="pending-verification-list" class="verification-grid">
-        <div class="loading">Loading pending verifications...</div>
+    <div class="admin-stats">
+      <div class="stat-card">
+        <div class="stat-icon pending">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number" id="pending-count">0</span>
+          <span class="stat-label">Pending Verification</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon total">
+          <i class="fas fa-list-alt"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number" id="total-count">0</span>
+          <span class="stat-label">Total Orders</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon revenue">
+          <i class="fas fa-dollar-sign"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number" id="revenue-count">$0</span>
+          <span class="stat-label">Total Revenue</span>
+        </div>
       </div>
     </div>
 
-    <!-- All Orders Tab -->
-    <div id="all-orders" class="tab-content">
-      <h2>All Orders</h2>
-      <div id="all-orders-list" class="orders-container">
-        <div class="loading">Loading all orders...</div>
-      </div>
-    </div>
-
-    <!-- Table View Tab -->
-    <div id="order-table" class="tab-content">
-      <div class="table-header">
-        <h2>Orders Table View</h2>
-        <button class="btn btn-secondary" onclick="adminOrders.loadOrders()">
-          <i class="fas fa-sync-alt"></i> Refresh
+    <div class="tabs-container">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="adminOrders.showTab('pending-verification')">
+          <i class="fas fa-clock"></i>
+          Pending Verification 
+          <span id="pending-badge" class="notification-badge">0</span>
+        </button>
+        <button class="tab-btn" onclick="adminOrders.showTab('all-orders')">
+          <i class="fas fa-list"></i>
+          All Orders
+        </button>
+        <button class="tab-btn" onclick="adminOrders.showTab('order-table')">
+          <i class="fas fa-table"></i>
+          Table View
         </button>
       </div>
-      <table class="orders-table">
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>Customer</th>
-            <th>Email</th>
-            <th>Items</th>
-            <th>Total</th>
-            <th>Status</th>
-            <th>Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="orders-table-body">
-          <tr>
-            <td colspan="8" class="loading">Loading orders...</td>
-          </tr>
-        </tbody>
-      </table>
+
+      <!-- Pending Verification Tab -->
+      <div id="pending-verification" class="tab-content active">
+        <div class="tab-header">
+          <h2><i class="fas fa-clock"></i> Orders Pending Verification</h2>
+          <p>Review and verify payment screenshots from customers</p>
+        </div>
+        <div id="pending-verification-list" class="verification-grid">
+          <div class="loading">
+            <div class="spinner"></div>
+            Loading pending verifications...
+          </div>
+        </div>
+      </div>
+
+      <!-- All Orders Tab -->
+      <div id="all-orders" class="tab-content">
+        <div class="tab-header">
+          <h2><i class="fas fa-list"></i> All Orders</h2>
+          <p>Complete overview of all customer orders</p>
+        </div>
+        <div id="all-orders-list" class="orders-container">
+          <div class="loading">
+            <div class="spinner"></div>
+            Loading all orders...
+          </div>
+        </div>
+      </div>
+
+      <!-- Table View Tab -->
+      <div id="order-table" class="tab-content">
+        <div class="tab-header">
+          <div>
+            <h2><i class="fas fa-table"></i> Orders Table View</h2>
+            <p>Detailed table view for order management</p>
+          </div>
+          <button class="btn btn-refresh" onclick="adminOrders.loadOrders()">
+            <i class="fas fa-sync-alt"></i> Refresh
+          </button>
+        </div>
+        <div class="table-container">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Email</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="orders-table-body">
+              <tr>
+                <td colspan="8" class="loading-cell">
+                  <div class="loading">
+                    <div class="spinner"></div>
+                    Loading orders...
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </main>
 
   <!-- Verification Modal -->
   <div id="verification-modal" class="modal">
     <div class="modal-content">
-      <h3>Verify Payment</h3>
-      <div id="verification-details"></div>
+      <div class="modal-header">
+        <h3><i class="fas fa-check-circle"></i> Verify Payment</h3>
+        <button class="modal-close" onclick="adminOrders.closeModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div id="verification-details" class="modal-body"></div>
       <div class="modal-actions">
         <button class="btn btn-approve" onclick="adminOrders.verifyPayment('approve')">
           <i class="fas fa-check"></i> Approve Payment
@@ -339,8 +186,13 @@
   <!-- Order Details Modal -->
   <div id="order-details-modal" class="modal">
     <div class="modal-content">
-      <h3>Order Details</h3>
-      <div id="order-details-content"></div>
+      <div class="modal-header">
+        <h3><i class="fas fa-info-circle"></i> Order Details</h3>
+        <button class="modal-close" onclick="adminOrders.closeOrderModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div id="order-details-content" class="modal-body"></div>
       <div class="modal-actions">
         <button class="btn btn-secondary" onclick="adminOrders.closeOrderModal()">Close</button>
       </div>
