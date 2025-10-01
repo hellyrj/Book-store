@@ -1,4 +1,3 @@
-
 // API base URL
 const API_BASE = 'http://localhost:3000/api';
 
@@ -15,6 +14,33 @@ const bookModalEl = document.getElementById('book-modal');
 const bookDetailsEl = document.getElementById('book-details');
 const closeModalEl = document.querySelector('.close-modal');
 const categoriesSection = document.querySelector('.categories');
+const menuToggleEl = document.getElementById('menuToggle');
+const navOverlayEl = document.getElementById('navOverlay');
+const mainNavEl = document.getElementById('mainNav');
+
+// Category icons mapping
+const categoryIcons = {
+    'fiction': 'fas fa-feather',
+    'science fiction': 'fas fa-rocket',
+    'mystery': 'fas fa-user-secret',
+    'romance': 'fas fa-heart',
+    'thriller': 'fas fa-mask',
+    'biography': 'fas fa-user',
+    'history': 'fas fa-landmark',
+    'science': 'fas fa-flask',
+    'technology': 'fas fa-laptop-code',
+    'business': 'fas fa-chart-line',
+    'fantasy': 'fas fa-dragon',
+    'horror': 'fas fa-ghost',
+    'children': 'fas fa-child',
+    'young adult': 'fas fa-users',
+    'cookbooks': 'fas fa-utensils',
+    'travel': 'fas fa-plane',
+    'art': 'fas fa-palette',
+    'music': 'fas fa-music',
+    'sports': 'fas fa-running',
+    'health': 'fas fa-heartbeat'
+};
 
 // Current state
 let currentCategoryId = null;
@@ -27,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchCategories();
     initSearch();
     initModal();
+    initMobileMenu();
     
     // Check if user is logged in and update counts
     const token = sessionStorage.getItem("token");
@@ -35,6 +62,38 @@ document.addEventListener('DOMContentLoaded', () => {
         updateWishlistCount();
     }
 });
+
+// Mobile menu functionality
+function initMobileMenu() {
+    menuToggleEl.addEventListener('click', toggleMobileMenu);
+    navOverlayEl.addEventListener('click', closeMobileMenu);
+    
+    // Close menu when clicking on nav links
+    document.querySelectorAll('.nav a').forEach(link => {
+        link.addEventListener('click', closeMobileMenu);
+    });
+    
+    // Close menu on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mainNavEl.classList.contains('active')) {
+            closeMobileMenu();
+        }
+    });
+}
+
+function toggleMobileMenu() {
+    menuToggleEl.classList.toggle('active');
+    mainNavEl.classList.toggle('active');
+    navOverlayEl.classList.toggle('active');
+    document.body.style.overflow = mainNavEl.classList.contains('active') ? 'hidden' : 'auto';
+}
+
+function closeMobileMenu() {
+    menuToggleEl.classList.remove('active');
+    mainNavEl.classList.remove('active');
+    navOverlayEl.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
 
 // Search functionality
 function initSearch() {
@@ -189,6 +248,18 @@ async function fetchCategories() {
     }
 }
 
+// Get icon for category
+function getCategoryIcon(categoryName) {
+    const lowerName = categoryName.toLowerCase();
+    for (const [key, icon] of Object.entries(categoryIcons)) {
+        if (lowerName.includes(key)) {
+            return icon;
+        }
+    }
+    // Default icon if no match found
+    return 'fas fa-book';
+}
+
 // Display categories in the grid
 function displayCategories(categories) {
     if (categories.length === 0) {
@@ -203,6 +274,9 @@ function displayCategories(categories) {
 
     allCategoriesEl.innerHTML = categories.map(category => `
         <div class="category-card" data-category-id="${category.category_id}" data-category-name="${category.name}">
+            <div class="category-icon">
+                <i class="${getCategoryIcon(category.name)}"></i>
+            </div>
             <h3>${category.name}</h3>
             <p>${category.description || 'No description available.'}</p>
             <span class="book-count">View Books</span>
@@ -669,7 +743,7 @@ function showNotification(message, type = "info") {
     }, 5000);
 }
 
-// Add CSS for animations
+// Add CSS for animations and category icons
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideIn {
@@ -693,6 +767,19 @@ style.textContent = `
     
     .cart-notification.info {
         background: #17a2b8;
+    }
+    
+    /* Category Icons */
+    .category-icon {
+        font-size: 3rem;
+        color: var(--gold);
+        margin-bottom: 16px;
+        transition: var(--transition);
+    }
+    
+    .category-card:hover .category-icon {
+        transform: scale(1.1) rotate(5deg);
+        color: var(--gold-light);
     }
     
     /* Modal Styles */
@@ -826,6 +913,19 @@ style.textContent = `
     
     .add-to-wishlist-details:hover {
         background: #e9ecef;
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .book-details-container {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+        
+        .book-details-cover img {
+            max-width: 250px;
+            margin: 0 auto;
+        }
     }
 `;
 document.head.appendChild(style);

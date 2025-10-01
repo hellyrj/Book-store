@@ -1,68 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact BookNest — Your Online Bookstore</title>
-  <link rel="stylesheet" href="css/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave a Review - BookNest</title>
+    <link rel="stylesheet" href="css/contact.css">
+
 </head>
 <body>
-  <!-- Light/Dark Mode Toggle -->
-  <input type="checkbox" id="theme-checkbox" aria-label="Toggle Light/Dark Mode"/>
-  <label for="theme-checkbox" class="theme-switch">🌙 Light / ☀️ Dark</label>
+    <div class="container">
 
-  <div class="site">
-    <header class="site-header container flex between center wrap">
-      <a class="brand" href="index.html"><img src="images/logo.png" alt="BookNest Logo"/><span>BookNest</span></a>
-    <nav class="nav flex center wrap" role="navigation" aria-label="Main navigation">
-  <a href="index.html" class="reveal">Home</a>
-  <a href="shop.html" class="reveal">Shop</a>
-  <a href="categories.html" class="reveal">Categories</a>
-  <a href="contact.html" class="reveal">Contact</a>
-
-  <!-- Right side: Cart + Login -->
-  <div class="nav-right">
-    <a href="cart.html" class="badge">🛒 <span id="cart-count">0</span></a>
-    <a href="login.html" class="login-btn">Login</a>
-  </div>
-</nav>
-
+      <header class="site-header">
+        <div class="container flex between center wrap">
+           <a class="brand" href="home.html">
+          <div class="mark">CR</div>
+          <span>CozyReads</span>
+           </a>
+           
+           <!-- Hamburger Menu Button -->
+           <button class="menu-toggle" id="menuToggle">
+             <span></span>
+             <span></span>
+             <span></span>
+           </button>
+           
+           <!-- Navigation Overlay -->
+           <div class="nav-overlay" id="navOverlay"></div>
+           
+            <nav class="nav flex center wrap" id="mainNav">
+                <a href="index.html" class="active">Home</a>
+                <a href="categories.html">Categories</a>
+                <a href="orders.html">Orders</a>
+                <a href="contact.html">Contact</a>
+                <div class="nav-right">
+                    <a href="wishlist.html" class="badge">
+                        <i class="fas fa-heart"></i> 
+                        <span id="wishlist-count">0</span>
+                    </a>
+                    <a href="cart.html" class="badge">
+                        <i class="fas fa-shopping-cart"></i> 
+                        <span id="cart-count">0</span>
+                    </a>
+                    <a href="login.html" class="login-btn">Login</a>
+                </div>
+            </nav>
+        </div>
     </header>
+        <h1>Share Your Experience</h1>
+        <p class="subtitle">We value your feedback! Tell us about your experience with BookNest.</p>
+        
+        <div id="message" class="message hidden"></div>
 
-    <section class="hero container reveal">
-      <h1>Contact Us</h1>
-      <p>Have questions about our books or services? Send us a message!</p>
-    </section>
+        <form id="reviewForm">
+            <div class="form-group">
+                <label for="guest_name">Your Full Name <span class="required">*</span></label>
+                <input type="text" id="guest_name" name="guest_name" required 
+                       placeholder="Enter your full name">
+            </div>
 
-    <main class="container">
-      <section class="card section-spacing reveal" style="max-width:500px; margin:2rem auto;">
-        <h2>Get in Touch</h2>
-        <p>Fill out the form below and we’ll get back to you as soon as possible:</p>
+            <div class="form-group">
+                <label for="guest_email">Your Email <span class="required">*</span></label>
+                <input type="email" id="guest_email" name="guest_email" required 
+                       placeholder="Enter your email address">
+            </div>
 
-        <form action="https://formspree.io/f/mpwlnggb" method="POST" target="_blank">
-          <label for="name">Your Name:</label>
-          <input type="text" id="name" name="name" required aria-required="true"/>
-          <label for="email">Your Email:</label>
-          <input type="email" id="email" name="email" required aria-required="true"/>
-          <label for="subject">Subject:</label>
-          <input type="text" id="subject" name="subject" required aria-required="true"/>
-          <label for="message">Your Message:</label>
-          <textarea id="message" name="message" required aria-required="true"></textarea>
-          <button type="submit" class="btn">Send Message</button>
+            <div class="form-group">
+                <label for="review_title">Review Title <span class="required">*</span></label>
+                <input type="text" id="review_title" name="review_title" required 
+                       placeholder="e.g., Great service!, Amazing book selection, etc." 
+                       maxlength="200">
+                <div class="char-count" id="titleCharCount">0/200 characters</div>
+            </div>
+
+            <div class="form-group">
+                <label for="comment">Your Review <span class="required">*</span></label>
+                <textarea id="comment" name="comment" 
+                         placeholder="Tell us about your experience with BookNest. What did you like? How can we improve?"
+                         required maxlength="1000"></textarea>
+                <div class="char-count" id="commentCharCount">0/1000 characters</div>
+            </div>
+
+            <button type="submit" id="submitBtn">Submit Review</button>
         </form>
-      </section>
-    </main>
 
-    <footer class="site-footer container">
-      <p>© <span id="year"></span> BookNest Online Bookstore</p>
-      <address>
-        Email: <a href="mailto:support@booknest.com">support@booknest.com</a><br/>
-        Phone: +251 912 345 678
-      </address>
-      <p>Delivering your favorite books right to your door.</p>
-    </footer>
-  </div>
+        <div style="text-align: center; margin-top: 20px; color: #666; font-size: 14px;">
+            <p>Your review will be visible to others after admin approval.</p>
+        </div>
+    </div>
 
-  <script src="js/script.js"></script>
+     <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>CozyReads</h3>
+          <p>Your premier destination for books of all genres. We're passionate about connecting readers with their next favorite book.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-goodreads"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="categories.html">Categories</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Customer Service</h3>
+          <ul class="footer-links">
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Contact Info</h3>
+          <ul class="footer-links">
+            <li><i class="fas fa-map-marker-alt"></i> 123 Book Street, Literary City</li>
+            <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+            <li><i class="fas fa-envelope"></i> info@cozyreads.com</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        <p>&copy; 2023 CozyReads. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+   <script src="js/contact.js"></script>
 </body>
 </html>

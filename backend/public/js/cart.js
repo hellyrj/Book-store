@@ -8,6 +8,9 @@ class CartManager {
   }
 
   async init() {
+    // Initialize mobile menu
+    this.initMobileMenu();
+    
     // Check authentication
     if (!this.token || !this.user) {
       this.showLoginRequired();
@@ -16,6 +19,54 @@ class CartManager {
 
     await this.loadCart();
     this.setupEventListeners();
+  }
+
+  // Mobile Menu Toggle Functionality
+  initMobileMenu() {
+    const menuToggle = document.getElementById('menuToggle');
+    const mainNav = document.getElementById('mainNav');
+    const navOverlay = document.getElementById('navOverlay');
+
+    if (!menuToggle || !mainNav || !navOverlay) {
+      console.error('Mobile menu elements not found');
+      return;
+    }
+
+    menuToggle.addEventListener('click', function() {
+      this.classList.toggle('active');
+      mainNav.classList.toggle('active');
+      navOverlay.classList.toggle('active');
+      document.body.style.overflow = mainNav.classList.contains('active') ? 'hidden' : 'auto';
+    });
+
+    // Close menu when clicking overlay
+    navOverlay.addEventListener('click', function() {
+      menuToggle.classList.remove('active');
+      mainNav.classList.remove('active');
+      this.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    });
+
+    // Close menu when clicking nav links
+    const navLinks = document.querySelectorAll('.nav a');
+    navLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        menuToggle.classList.remove('active');
+        mainNav.classList.remove('active');
+        navOverlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      });
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mainNav.classList.contains('active')) {
+        menuToggle.classList.remove('active');
+        mainNav.classList.remove('active');
+        navOverlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      }
+    });
   }
 
   showLoginRequired() {
@@ -28,7 +79,7 @@ class CartManager {
   showLoading() {
     document.getElementById("cart-table-body").innerHTML = `
       <tr>
-        <td colspan="6" class="loading">
+        <td colspan="7" class="loading">
           <div class="spinner"></div>
           Loading your cart...
         </td>
@@ -86,6 +137,11 @@ class CartManager {
     tbody.innerHTML = items.map(item => {
       const itemTotal = item.quantity * parseFloat(item.price);
       total += itemTotal;
+      
+      // Determine stock status
+      const stockStatus = this.getStockStatus(item.stock, item.quantity);
+      const stockClass = stockStatus.includes('In Stock') ? 'stock-in' : 'stock-out';
+      const stockIcon = stockStatus.includes('In Stock') ? 'fa-check-circle' : 'fa-times-circle';
 
       return `
         <tr class="cart-item" data-id="${item.cart_item_id}">
@@ -101,7 +157,11 @@ class CartManager {
                    min="1" 
                    value="${item.quantity}" 
                    data-id="${item.cart_item_id}"
-                   class="quantity-input">
+                   class="quantity-input"
+                   ${!stockStatus.includes('In Stock') ? 'disabled' : ''}>
+          </td>
+          <td class="stock-status ${stockClass}">
+            <i class="fas ${stockIcon}"></i> ${stockStatus}
           </td>
           <td class="item-total">$${itemTotal.toFixed(2)}</td>
           <td class="actions">
@@ -122,6 +182,21 @@ class CartManager {
     clearCartBtn.style.display = 'block';
     
     this.setupCartItemEvents();
+  }
+
+  // Stock status function
+  getStockStatus(stock, quantity) {
+    if (stock === undefined || stock === null) {
+      return 'In Stock'; // Default if stock info not available
+    }
+    
+    if (stock <= 0) {
+      return 'Out of Stock';
+    } else if (stock < quantity) {
+      return `Low Stock (${stock} available)`;
+    } else {
+      return 'In Stock';
+    }
   }
 
   showEmptyCart() {
@@ -459,7 +534,7 @@ class CartManager {
            <br><br>
   <a href="orders.html" style="color: white; text-decoration: underline;">
     View Your Orders
-  </a>s
+  </a>
         `);
         
         // Close checkout modal

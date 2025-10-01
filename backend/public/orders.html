@@ -5,101 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>My Orders - BookNest</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="css/style.css">
-  <style>
-    .orders-container {
-      margin: 20px 0;
-    }
-    .order-card {
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .order-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-    }
-    .order-status {
-      padding: 5px 10px;
-      border-radius: 15px;
-      font-size: 0.8rem;
-      font-weight: bold;
-    }
-    .status-pending { background: #fff3cd; color: #856404; }
-    .status-pending_verification { background: #fff3cd; color: #856404; }
-    .status-paid { background: #d1ecf1; color: #0c5460; }
-    .status-processing { background: #d1ecf1; color: #0c5460; }
-    .status-shipped { background: #d1edc7; color: #155724; }
-    .status-delivered { background: #d1edc7; color: #155724; }
-    .status-cancelled { background: #f8d7da; color: #721c24; }
-    .status-payment_rejected { background: #f8d7da; color: #721c24; }
-    
-    .order-details {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
-    .order-items {
-      margin: 10px 0;
-    }
-    .order-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 5px 0;
-      border-bottom: 1px solid #eee;
-    }
-    .verification-message {
-      background: #e7f3ff;
-      border-left: 4px solid #4a6fa5;
-      padding: 10px 15px;
-      margin: 10px 0;
-      border-radius: 4px;
-    }
-    .empty-state {
-      text-align: center;
-      padding: 40px;
-      color: #666;
-    }
-    .loading {
-      text-align: center;
-      padding: 20px;
-    }
-    @media (max-width: 768px) {
-      .order-details {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="css/orders.css">
+ 
 </head>
 <body>
-  <header class="site-header">
-    <div class="container flex between center wrap">
-      <a class="brand" href="index.html">
-        <i class="fas fa-book-open"></i><span>BookNest</span>
-      </a>
-      <nav class="nav flex center wrap">
-        <a href="index.html">Home</a>
-        <a href="categories.html">Categories</a>
-        <a href="contact.html">Contact</a>
-        <div class="nav-right">
-          <a href="cart.html" class="badge">
-            <i class="fas fa-shopping-cart"></i> 
-            <span id="cart-count">0</span>
-          </a>
-          <a href="orders.html" class="active">
-            <i class="fas fa-box"></i> My Orders
-          </a>
-          <a href="login.html" class="login-btn">Logout</a>
+    <header class="site-header">
+        <div class="container flex between center wrap">
+           <a class="brand" href="home.html">
+          <div class="mark">CR</div>
+          <span>CozyReads</span>
+           </a>
+           
+           <!-- Hamburger Menu Button -->
+           <button class="menu-toggle" id="menuToggle">
+             <span></span>
+             <span></span>
+             <span></span>
+           </button>
+           
+           <!-- Navigation Overlay -->
+           <div class="nav-overlay" id="navOverlay"></div>
+           
+            <nav class="nav flex center wrap" id="mainNav">
+                <a href="index.html" class="active">Home</a>
+                <a href="categories.html">Categories</a>
+                <a href="orders.html">Orders</a>
+                <a href="contact.html">Contact</a>
+                <div class="nav-right">
+                    <a href="wishlist.html" class="badge">
+                        <i class="fas fa-heart"></i> 
+                        <span id="wishlist-count">0</span>
+                    </a>
+                    <a href="cart.html" class="badge">
+                        <i class="fas fa-shopping-cart"></i> 
+                        <span id="cart-count">0</span>
+                    </a>
+                    <a href="login.html" class="login-btn">Login</a>
+                </div>
+            </nav>
         </div>
-      </nav>
-    </div>
-  </header>
+    </header>
 
   <main class="container">
     <h1><i class="fas fa-box"></i> My Orders</h1>
@@ -113,211 +58,56 @@
     </div>
   </main>
 
-  <footer>
+    <footer>
     <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>CozyReads</h3>
+          <p>Your premier destination for books of all genres. We're passionate about connecting readers with their next favorite book.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-goodreads"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="categories.html">Categories</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Customer Service</h3>
+          <ul class="footer-links">
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Contact Info</h3>
+          <ul class="footer-links">
+            <li><i class="fas fa-map-marker-alt"></i> 123 Book Street, Literary City</li>
+            <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+            <li><i class="fas fa-envelope"></i> info@cozyreads.com</li>
+          </ul>
+        </div>
+      </div>
+      
       <div class="copyright">
-        <p>&copy; 2023 BookNest. All rights reserved.</p>
+        <p>&copy; 2023 CozyReads. All rights reserved.</p>
       </div>
     </div>
   </footer>
+  <script src="js/orders.js"></script>
 
-  <script>
-    class OrderManager {
-      constructor() {
-        this.token = sessionStorage.getItem("token");
-        this.user = JSON.parse(sessionStorage.getItem("user"));
-        this.apiBase = "http://localhost:3000/api/orders";
-        
-        this.init();
-      }
-
-      async init() {
-        // Check authentication
-        if (!this.token || !this.user) {
-          this.showLoginRequired();
-          return;
-        }
-
-        await this.loadOrders();
-        // Refresh orders every 30 seconds to get status updates
-        setInterval(() => this.loadOrders(), 30000);
-      }
-
-      showLoginRequired() {
-        document.getElementById('orders-container').innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-exclamation-circle" style="font-size: 3rem; margin-bottom: 20px;"></i>
-            <h2>Login Required</h2>
-            <p>Please log in to view your orders.</p>
-            <a href="login.html" class="btn">
-              <i class="fas fa-sign-in-alt"></i> Login Now
-            </a>
-          </div>
-        `;
-      }
-
-      async loadOrders() {
-        try {
-          const response = await fetch(`${this.apiBase}`, {
-            headers: { 
-              "Authorization": `Bearer ${this.token}`,
-              "Content-Type": "application/json"
-            }
-          });
-
-          const result = await response.json();
-
-          if (!response.ok) {
-            throw new Error(result.error || "Failed to load orders");
-          }
-
-          if (result.success) {
-            this.displayOrders(result.data);
-          } else {
-            throw new Error(result.error);
-          }
-        } catch (error) {
-          this.showError("Failed to load orders: " + error.message);
-        }
-      }
-
-      displayOrders(orders) {
-        const container = document.getElementById('orders-container');
-        
-        if (!orders || orders.length === 0) {
-          container.innerHTML = `
-            <div class="empty-state">
-              <i class="fas fa-box-open" style="font-size: 3rem; margin-bottom: 20px;"></i>
-              <h2>No Orders Yet</h2>
-              <p>You haven't placed any orders yet.</p>
-              <a href="categories.html" class="btn">
-                <i class="fas fa-book"></i> Start Shopping
-              </a>
-            </div>
-          `;
-          return;
-        }
-
-        container.innerHTML = orders.map(order => {
-          const statusClass = `status-${order.status}`;
-          const statusText = this.getStatusText(order.status);
-          const verificationMessage = this.getVerificationMessage(order);
-          
-          return `
-            <div class="order-card">
-              <div class="order-header">
-                <div>
-                  <h3>Order #${order.order_id}</h3>
-                  <p class="order-date">Placed on ${new Date(order.created_at).toLocaleDateString()}</p>
-                </div>
-                <div style="text-align: right;">
-                  <div class="order-status ${statusClass}">${statusText}</div>
-                  <div style="font-size: 1.2rem; font-weight: bold; margin-top: 5px;">
-                    $${parseFloat(order.total_price).toFixed(2)}
-                  </div>
-                </div>
-              </div>
-              
-              ${verificationMessage ? `
-                <div class="verification-message">
-                  <i class="fas fa-info-circle"></i> ${verificationMessage}
-                </div>
-              ` : ''}
-              
-              <div class="order-details">
-                <div>
-                  <h4>Shipping Information</h4>
-                  <p><strong>Name:</strong> ${order.full_name}</p>
-                  <p><strong>Phone:</strong> ${order.phone_number}</p>
-                  <p><strong>Address:</strong> ${order.shipping_address}</p>
-                  <p><strong>City:</strong> ${order.city} ${order.zip_code ? `, ${order.zip_code}` : ''}</p>
-                  <p><strong>Payment Method:</strong> ${order.payment_method === 'screenshot' ? 'Bank Transfer' : 'Cash on Delivery'}</p>
-                </div>
-                
-                <div>
-                  <h4>Order Items</h4>
-                  <div class="order-items">
-                    ${order.items ? order.items.map(item => `
-                      <div class="order-item">
-                        <span>${item.title}</span>
-                        <span>${item.quantity} x $${parseFloat(item.price).toFixed(2)}</span>
-                      </div>
-                    `).join('') : '<p>No items found</p>'}
-                  </div>
-                </div>
-              </div>
-              
-              ${order.updated_at !== order.created_at ? `
-                <div style="margin-top: 15px; font-size: 0.9rem; color: #666;">
-                  <i class="fas fa-sync-alt"></i> Last updated: ${new Date(order.updated_at).toLocaleString()}
-                </div>
-              ` : ''}
-            </div>
-          `;
-        }).join('');
-      }
-
-      getStatusText(status) {
-        const statusMap = {
-          'pending': 'Pending',
-          'pending_verification': 'Pending Verification',
-          'paid': 'Payment Verified',
-          'processing': 'Processing',
-          'shipped': 'Shipped',
-          'delivered': 'Delivered',
-          'cancelled': 'Cancelled',
-          'payment_rejected': 'Payment Rejected'
-        };
-        return statusMap[status] || status;
-      }
-
-      getVerificationMessage(order) {
-        switch(order.status) {
-          case 'pending_verification':
-            return 'Your payment is being verified. We will notify you once verified.';
-          case 'paid':
-            return '✅ Your payment has been verified! Your order is now being processed.';
-          case 'payment_rejected':
-            return '❌ Your payment could not be verified. Please contact support or try again.';
-          case 'processing':
-            return 'Your order is being processed and will be shipped soon.';
-          case 'shipped':
-            return '🚚 Your order has been shipped!';
-          case 'delivered':
-            return '🎉 Your order has been delivered!';
-          default:
-            return '';
-        }
-      }
-      // Add to OrderManager class in orders.html
-startAutoRefresh() {
-  // Refresh orders every 30 seconds
-  setInterval(() => {
-    this.loadOrders();
-  }, 30000);
-}
-
-// Call this in init() after loadOrders()
-
-      showError(message) {
-        const container = document.getElementById('orders-container');
-        container.innerHTML = `
-          <div class="error-message">
-            <i class="fas fa-exclamation-triangle"></i>
-            <h3>Error Loading Orders</h3>
-            <p>${message}</p>
-            <button onclick="location.reload()" class="btn">
-              <i class="fas fa-redo"></i> Try Again
-            </button>
-          </div>
-        `;
-      }
-    }
-
-    // Initialize when page loads
-    document.addEventListener('DOMContentLoaded', () => {
-      new OrderManager();
-    });
-  </script>
 </body>
 </html>

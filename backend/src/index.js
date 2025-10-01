@@ -9,6 +9,7 @@ import orderRoutes from "./routes/orderRoutes.js";
 import categoryRoute from "./routes/categoryRoute.js";
 import adminRoutes from './routes/adminRoutes.js';
 import wishlistRoutes from './routes/wishlistRoutes.js';
+import reviewRouter from './routes/reviewRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -36,6 +37,7 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/categories", categoryRoute);
 app.use('/api/admin', adminRoutes);
 app.use('/api/wishlist', wishlistRoutes);
+app.use('/api/reviews', reviewRouter);
 
 // Health check
 app.get("/api", (req, res) => {

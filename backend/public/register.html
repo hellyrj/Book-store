@@ -12,19 +12,41 @@
   <label for="theme-checkbox" class="theme-switch">🌙 Light / ☀️ Dark</label>
 
   <div class="site">
-    <header class="site-header container flex between center wrap">
-      <a class="brand" href="index.html"><img src="images/logo.png" alt="BookNest Logo"/><span>BookNest</span></a>
-      <nav class="nav flex center wrap" role="navigation" aria-label="Main navigation">
-        <a href="index.html" class="reveal">Home</a>
-        <a href="shop.html" class="reveal">Shop</a>
-        <a href="categories.html" class="reveal">Categories</a>
-        <a href="contact.html" class="reveal">Contact</a>
-
-        <div class="nav-right">
-          <a href="cart.html" class="badge">🛒 <span id="cart-count">0</span></a>
-          <a href="login.html" class="login-btn">Login</a>
+    <header class="site-header">
+        <div class="container flex between center wrap">
+           <a class="brand" href="home.html">
+          <div class="mark">CR</div>
+          <span>CozyReads</span>
+           </a>
+           
+           <!-- Hamburger Menu Button -->
+           <button class="menu-toggle" id="menuToggle">
+             <span></span>
+             <span></span>
+             <span></span>
+           </button>
+           
+           <!-- Navigation Overlay -->
+           <div class="nav-overlay" id="navOverlay"></div>
+           
+            <nav class="nav flex center wrap" id="mainNav">
+                <a href="index.html" class="active">Home</a>
+                <a href="categories.html">Categories</a>
+                <a href="orders.html">Orders</a>
+                <a href="contact.html">Contact</a>
+                <div class="nav-right">
+                    <a href="wishlist.html" class="badge">
+                        <i class="fas fa-heart"></i> 
+                        <span id="wishlist-count">0</span>
+                    </a>
+                    <a href="cart.html" class="badge">
+                        <i class="fas fa-shopping-cart"></i> 
+                        <span id="cart-count">0</span>
+                    </a>
+                    <a href="login.html" class="login-btn">Login</a>
+                </div>
+            </nav>
         </div>
-      </nav>
     </header>
 
     <main class="container">
@@ -49,14 +71,55 @@
       </section>
     </main>
 
-    <footer class="site-footer container">
-      <p>© <span id="year"></span> BookNest Online Bookstore</p>
-      <address>
-        Email: <a href="mailto:support@booknest.com">support@booknest.com</a><br/>
-        Phone: +251 912 345 678
-      </address>
-      <p>Delivering your favorite books right to your door.</p>
-    </footer>
+      <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>CozyReads</h3>
+          <p>Your premier destination for books of all genres. We're passionate about connecting readers with their next favorite book.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-goodreads"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="categories.html">Categories</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Customer Service</h3>
+          <ul class="footer-links">
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h3>Contact Info</h3>
+          <ul class="footer-links">
+            <li><i class="fas fa-map-marker-alt"></i> 123 Book Street, Literary City</li>
+            <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+            <li><i class="fas fa-envelope"></i> info@cozyreads.com</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        <p>&copy; 2023 CozyReads. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
   </div>
 
   <script src="js/register.js"></script>

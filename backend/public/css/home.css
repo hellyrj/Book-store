@@ -1,4 +1,4 @@
-/* ===== Reset & Base ===== */
+/* ===== Reset & Base ===== 
 * {
   margin: 0;
   padding: 0;
@@ -12,14 +12,14 @@ body {
   background-color: #f9f9f9;
 }
 
-/* ===== Container ===== */
+/* ===== Container ===== 
 .container {
   width: 90%;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/* ===== Flex Utility ===== */
+/* ===== Flex Utility ===== 
 .flex {
   display: flex;
 }
@@ -34,7 +34,7 @@ body {
   flex-wrap: wrap;
 }
 
-/* ===== Header ===== */
+/* ===== Header ===== 
 .site-header {
   padding: 15px 0;
   background-color: #fff;
@@ -87,7 +87,7 @@ body {
   width: 100%;
 }
 
-/* ===== Nav Right ===== */
+/* ===== Nav Right ===== 
 .nav-right {
   display: flex;
   align-items: center;
@@ -125,7 +125,7 @@ body {
   background-color: #005fa3;
 }
 
-/* ===== Hero Section ===== */
+/* ===== Hero Section ===== 
 .hero {
   text-align: center;
   padding: 80px 20px;
@@ -142,7 +142,7 @@ body {
   font-size: 1.2rem;
 }
 
-/* ===== Categories Section ===== */
+/* ===== Categories Section ===== 
 .categories {
   padding: 50px 20px;
   background-color: #fff;
@@ -154,7 +154,7 @@ body {
   margin-bottom: 30px;
 }
 
-/* ===== Grid for Categories ===== */
+/* ===== Grid for Categories ===== 
 .grid {
   display: grid;
   gap: 20px;
@@ -174,7 +174,7 @@ body {
   box-shadow: 0 8px 15px rgba(0,0,0,0.2);
 }
 
-/* ===== Responsive ===== */
+/* ===== Responsive ===== 
 @media (max-width: 768px) {
   .nav {
     flex-direction: column;
@@ -192,4 +192,4 @@ body {
   .hero p {
     font-size: 1rem;
   }
-}
+} */

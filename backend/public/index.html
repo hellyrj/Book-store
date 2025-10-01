@@ -3,160 +3,104 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BookNest - Your Online Bookstore</title>
+  <title>CozyReads - Your Online Bookstore</title>
   <link rel="stylesheet" href="css/style.css">
- 
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <header class="site-header container flex between center wrap">
-    <a class="brand" href="index.html">
-      <i class="fas fa-book-open"></i><span>BookNest</span>
-    </a>
-    <button class="menu-toggle" id="menuToggle">
-      <i class="fas fa-bars"></i>
-    </button>
-    <nav class="nav flex center wrap" role="navigation" id="mainNav">
-      <a href="index.html">Home</a>
-      <a href="categories.html">Categories</a>
-      <a href="contact.html">Contact</a>
-      <div class="nav-right">
-        <a href="cart.html" class="badge"><i class="fas fa-shopping-cart"></i> <span id="cart-count">0</span></a>
-        <a href="login.html" class="login-btn">Login</a>
-       <a href="wishlist.html" class="badge"><i class="fas fa-heart"></i> <span id="wishlist">0</span></a>
-
-      </div>
-    </nav>
-  </header>
+    <header class="site-header">
+        <div class="container flex between center wrap">
+           <a class="brand" href="home.html">
+          <div class="mark">CR</div>
+          <span>CozyReads</span>
+           </a>
+           
+           <!-- Hamburger Menu Button -->
+           <button class="menu-toggle" id="menuToggle">
+             <span></span>
+             <span></span>
+             <span></span>
+           </button>
+           
+           <!-- Navigation Overlay -->
+           <div class="nav-overlay" id="navOverlay"></div>
+           
+            <nav class="nav flex center wrap" id="mainNav">
+                <a href="index.html" class="active">Home</a>
+                <a href="categories.html">Categories</a>
+                <a href="orders.html">Orders</a>
+                <a href="contact.html">Contact</a>
+                <div class="nav-right">
+                    <a href="wishlist.html" class="badge">
+                        <i class="fas fa-heart"></i> 
+                        <span id="wishlist-count">0</span>
+                    </a>
+                    <a href="cart.html" class="badge">
+                        <i class="fas fa-shopping-cart"></i> 
+                        <span id="cart-count">0</span>
+                    </a>
+                    <a href="login.html" class="login-btn">Login</a>
+                </div>
+            </nav>
+        </div>
+    </header>
 
   <main>
     <!-- Hero Section -->
     <section class="hero">
-      <h2>Welcome to BookNest</h2>
-      <p>Discover a world of stories, knowledge, and imagination with our curated collection of books.</p>
-      <a href="shop.html" class="btn">Explore Our Collection</a>
+     <div class="hero-image"></div>
+     <div class="hero-content">
+             <h1>Welcome to CozyReads</h1>
+        <p>
+          Discover books that inspire, entertain, and stay with you forever.
+        </p>
+      <a href="categories.html" class="btn">Explore Our Collection</a>
+      </div>
     </section>
 
-    <!-- Categories Preview -->
+
+
+    <!-- Bestseller Books Section -->
+    <section class="featured container">
+      <h2>Bestseller Books</h2>
+      <div id="bestseller-books" class="book-grid">
+        <div class="spinner"></div>
+      </div>
+    </section>
+
+    <!-- Popular Categories Section -->
     <section class="categories container">
       <h2>Popular Categories</h2>
       <div id="home-categories" class="grid">
-        <div class="category-card animate">
-          <div class="category-icon">
-            <i class="fas fa-rocket"></i>
-          </div>
-          <div class="category-info">
-            <h3>Science Fiction</h3>
-            <p>Journey to distant galaxies and futuristic worlds</p>
-          </div>
-        </div>
-        
-        <div class="category-card animate">
-          <div class="category-icon">
-            <i class="fas fa-user-secret"></i>
-          </div>
-          <div class="category-info">
-            <h3>Mystery & Thriller</h3>
-            <p>Unravel puzzles and suspenseful stories</p>
-          </div>
-        </div>
-        
-        <div class="category-card animate">
-          <div class="category-icon">
-            <i class="fas fa-heart"></i>
-          </div>
-          <div class="category-info">
-            <h3>Romance</h3>
-            <p>Stories of love, passion, and relationships</p>
-          </div>
-        </div>
-        
-        <div class="category-card animate">
-          <div class="category-icon">
-            <i class="fas fa-graduation-cap"></i>
-          </div>
-          <div class="category-info">
-            <h3>Non-Fiction</h3>
-            <p>Knowledge, biographies, and real-world insights</p>
-          </div>
-        </div>
+        <div class="spinner"></div>
       </div>
       <div class="see-all">
         <a href="categories.html" class="btn">See All Categories <i class="fas fa-arrow-right"></i></a>
       </div>
     </section>
 
-    <!-- Featured Books Section -->
-    <section class="featured container">
-      <h2>Featured Books</h2>
-      <div class="book-grid">
-        <div class="book-card animate">
-          <div class="book-cover">
-            <img src="https://covers.openlibrary.org/b/id/8259447-L.jpg" alt="Book Cover">
-          </div>
-          <div class="book-info">
-            <h3 class="book-title">The Great Gatsby</h3>
-            <p class="book-author">F. Scott Fitzgerald</p>
-            <p class="book-price">$12.99</p>
-            <button class="add-to-cart">Add to Cart</button>
-          </div>
-        </div>
-        
-        <div class="book-card animate">
-          <div class="book-cover">
-            <img src="https://covers.openlibrary.org/b/id/8397863-L.jpg" alt="Book Cover">
-          </div>
-          <div class="book-info">
-            <h3 class="book-title">To Kill a Mockingbird</h3>
-            <p class="book-author">Harper Lee</p>
-            <p class="book-price">$11.50</p>
-            <button class="add-to-cart">Add to Cart</button>
-          </div>
-        </div>
-        
-        <div class="book-card animate">
-          <div class="book-cover">
-            <img src="https://covers.openlibrary.org/b/id/8086648-L.jpg" alt="Book Cover">
-          </div>
-          <div class="book-info">
-            <h3 class="book-title">1984</h3>
-            <p class="book-author">George Orwell</p>
-            <p class="book-price">$10.25</p>
-            <button class="add-to-cart">Add to Cart</button>
-          </div>
-        </div>
-        
-        <div class="book-card animate">
-          <div class="book-cover">
-            <img src="https://covers.openlibrary.org/b/id/12181224-L.jpg" alt="Book Cover">
-          </div>
-          <div class="book-info">
-            <h3 class="book-title">The Hobbit</h3>
-            <p class="book-author">J.R.R. Tolkien</p>
-            <p class="book-price">$14.99</p>
-            <button class="add-to-cart">Add to Cart</button>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Newsletter Section -->
-    <section class="newsletter">
-      <div class="container">
-        <h2>Stay Updated</h2>
-        <p>Subscribe to our newsletter for the latest book releases, promotions, and literary news.</p>
-        <form class="newsletter-form">
-          <input type="email" placeholder="Your email address" required>
-          <button type="submit">Subscribe</button>
-        </form>
-      </div>
-    </section>
+
+<section class="newsletter container">
+    <p>🎉 Free shipping on all orders over $50!</p>
+  <h2>Join Our Reading Community</h2>
+
+  <p>"Did you know? The world's largest book weighs over 3,000 kg!"</p>
+  <p>Get new releases and top picks straight to your inbox.</p>
+  <form>
+    <input type="email" placeholder="Enter your email">
+    <button type="submit" class="btn">Subscribe</button>
+  </form>
+</section>
+
   </main>
 
   <footer>
     <div class="container">
       <div class="footer-content">
         <div class="footer-column">
-          <h3>BookNest</h3>
+          <h3>CozyReads</h3>
           <p>Your premier destination for books of all genres. We're passionate about connecting readers with their next favorite book.</p>
           <div class="social-links">
             <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -191,17 +135,18 @@
           <ul class="footer-links">
             <li><i class="fas fa-map-marker-alt"></i> 123 Book Street, Literary City</li>
             <li><i class="fas fa-phone"></i> (123) 456-7890</li>
-            <li><i class="fas fa-envelope"></i> info@booknest.com</li>
+            <li><i class="fas fa-envelope"></i> info@cozyreads.com</li>
           </ul>
         </div>
       </div>
       
       <div class="copyright">
-        <p>&copy; 2023 BookNest. All rights reserved.</p>
+        <p>&copy; 2023 CozyReads. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
-
+  
+  <script src="js/home.js"></script>
 </body>
 </html>

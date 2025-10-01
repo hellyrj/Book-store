@@ -119,6 +119,15 @@ async function createTables() {
       );
     `);
 
+    // Add this after creating the reviews table in initTables.js
+await query(`
+  ALTER TABLE reviews 
+  ALTER COLUMN user_id DROP NOT NULL,
+  ADD COLUMN IF NOT EXISTS guest_name VARCHAR(100),
+  ADD COLUMN IF NOT EXISTS guest_email VARCHAR(150),
+  ADD COLUMN IF NOT EXISTS is_approved BOOLEAN DEFAULT false;
+`);
+
     // Add status constraints to orders table
     await query(`
       DO $$ 
