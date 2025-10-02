@@ -523,23 +523,13 @@ npm start
 - **Multi-language Support** - Internationalization
 - **Advanced Inventory** - Supplier management, reordering
 
-### Technical Improvements
-- **Real-time Updates** - WebSocket integration
-- **Caching Layer** - Redis for performance
-- **Microservices** - Scalable architecture
-- **CI/CD Pipeline** - Automated testing and deployment
 
----
+ students name 
+  Hilina hussien QV2210
+Kalkidan Mamo UQ0437
+Liyuwork kebede BL9873
+Meghfira kheyredin EJ7439(DRBSE2302 B)
+Rahma yasin UC1303(DRBSE2302 B)
+Rihana abdellah Rp1872(DRBSE2302 B)
 
-## 📞 Support & Maintenance
 
-### Development Tools
-- **Debugging**: Comprehensive console logging
-- **Monitoring**: Performance and error tracking
-- **Documentation**: API and code documentation
-
-### Maintenance Procedures
-- **Regular backups** of database
-- **Security updates** for dependencies
-- **Performance monitoring**
-- **Error log review**
