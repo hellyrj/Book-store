@@ -4,9 +4,8 @@ import { query, end } from "../db.js";
 async function seedAdmin() {
   try {
     const name = "Admin";
-    const email = "admin@example.com";
-    const password = "supersecret"; // <-- change this before running live!
-
+    const email = "admin@gmail.com";
+    const password = "adminpassword123"; // <-- change this before running live!
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Insert admin into users table

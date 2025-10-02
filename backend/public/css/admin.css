@@ -917,3 +917,40 @@ textarea.form-input {
     vertical-align: middle;
   }
 }
+
+/* Add to admin.css */
+.books-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  min-width: 800px;
+  table-layout: fixed; /* Prevents column width changes */
+}
+
+/* Ensure consistent column widths */
+.books-table th:nth-child(1) { width: 80px; }  /* Cover */
+.books-table th:nth-child(2) { width: 25%; }   /* Title */
+.books-table th:nth-child(3) { width: 20%; }   /* Author */
+.books-table th:nth-child(4) { width: 15%; }   /* Category */
+.books-table th:nth-child(5) { width: 10%; }   /* Price */
+.books-table th:nth-child(6) { width: 10%; }   /* Stock */
+.books-table th:nth-child(7) { width: 150px; } /* Actions */
+
+/* Prevent image loading layout shifts */
+.books-table img.thumb {
+  width: 50px;
+  height: 65px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid rgba(139, 69, 19, 0.1);
+  background: var(--beige-light); /* Placeholder background */
+}
+
+/* Smooth transitions for table updates */
+.books-table tr {
+  transition: opacity 0.3s ease;
+}
+
+.books-table.updating tr {
+  opacity: 0.7;
+}

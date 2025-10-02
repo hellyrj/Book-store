@@ -1,353 +1,545 @@
-  
+# CozyReads Online Bookstore - Complete Documentation
 
-#  CozyReads
+## 📋 Project Overview
 
-BookNest is a full-stack online bookstore application built with **Node.js, Express, PostgreSQL, and Vanilla JS (HTML/CSS/JS frontend)**.  
-It allows users to browse books by categories, add to cart, and place orders.  
-Admins can manage books (CRUD), categories, and view orders through a dedicated panel.
+**CozyReads** is a full-stack online bookstore application built with Node.js/Express backend and vanilla JavaScript frontend. The application provides a complete e-commerce experience with user authentication, book browsing, shopping cart, wishlist, order management, and comprehensive admin features.
 
----
+## 🏗️ Architecture Overview
 
-## 🚀 Features
+```
+CozyReads/
+├── backend/                 # Node.js/Express API Server
+│   ├── src/
+│   │   ├── routes/         # API Route handlers
+│   │   ├── middleware/     # Authentication & Authorization
+│   │   ├── scripts/        # Data population utilities
+│   │   └── db.js          # Database configuration
+│   └── public/            # Frontend static files
+│       ├── *.html         # Application pages
+│       ├── css/           # Stylesheets
+│       ├── js/            # Frontend JavaScript
+│       └── images/        # Static assets
+```
 
-### 👤 Users
-- Register & Login (JWT authentication)
-- Browse categories & books
-- Search books
-- Add to Cart
-- Place orders
-- View their orders
+## 🚀 Quick Start Guide
 
-### 🔑 Admin
-- Admin login with role-based access
-- Add, edit, delete books
-- Manage categories
-- Manage customer orders
+### Prerequisites
+- Node.js (v14 or higher)
+- PostgreSQL (v12 or higher)
+- npm or yarn
 
----
+### Installation & Setup
 
-## 🛠️ Tech Stack
-- **Backend:** Node.js, Express
-- **Database:** PostgreSQL (with Supabase or local Postgres)
-- **Frontend:** HTML, CSS, Vanilla JavaScript
-- **Auth:** JWT + Role-based authorization
-- **Environment:** `.env` for secrets
+1. **Clone and Setup Backend**
 
----
-
-## ⚙️ Setup Instructions
-
-### 1. Clone the repo
 ```bash
 git clone https://github.com/hellyrj/bookstore.git
-cd booknest
-
-
-
-Table of Contents
-
-
-1. Features
-
-            User Features
-
-- User registration and login with JWT
-
-- Browse books by categories
-
-- Search books by title, author, or category
-
-- Shopping cart management
-
--  Wishlist functionality
-
-- Order placement with multiple payment methods
-
--  Order history and tracking
-
-- Guest reviews system
-
-           Admin Features
-- Admin dashboard with statistics
-
--  Book management (CRUD operations) 
-
-- Order management and status updates
-
- - Payment verification system
-
--  Email notifications
-
-   Payment Methods
-
-- Payment screenshot verification
-
-- Cash on delivery
-
-- Automated email notifications
-
-Tech Stack
-
-Project Structure
-
-
-
-Setup Instructions
-
-# Install Node.js and PostgreSQL
-# Clone the repository
-git clone https://github.com/hellyrj/bookstore.git
-
 cd backend
+npm install
+```
 
-#install dependency 
-npm install express dotenv cors bcryptjs jsonwebtoken pg axios
+2. **Database Configuration**
+```bash
+# Create PostgreSQL database
+createdb booknest
 
-.env
-# Database
-DATABASE_URL=postgresql://username:password@localhost:5432/booknest
+# Setup environment variables
+cp .env.example .env
+# Edit .env with your database credentials
+```
 
-# JWT Secret
-JWT_SECRET=your_super_secret_jwt_key_here
+3. **Initialize Database**
+```bash
+# Create tables and schema
+node src/models/initTables.js
 
-# Server Port
-PORT=3000
-
-# Optional: Admin API Key
-ADMIN_API_KEY=your_admin_api_key_here
-
-# Initialize database tables
-node src/scripts/initTables.js
-
-# Create admin user
-node src/scripts/seedAdmin.js
+# Seed admin user
+node src/models/seedAdmin.js
 
 # Seed categories
 node src/scripts/seedCategories.js
 
-#populate books
-# Fetch books from Google Books API
+# Populate with sample books (optional)
 node src/scripts/fetchBooks.js
+```
 
-# Normalize categories
-node src/scripts/normalizeCategories.js
-
-# Auto-categorize books
-node src/scripts/categorizeBooks.js
-
-# Development
+4. **Start Development Server**
+```bash
 npm run dev
+# Server runs on http://localhost:3000
+```
 
-# Production
+## 📁 Complete File Structure & Documentation
+
+### Backend Structure (`/backend`)
+
+#### Core Application (`/src`)
+- **`index.js`** - Main server entry point
+  - Express server configuration
+  - Middleware setup (CORS, JSON parsing, static files)
+  - Route mounting
+  - Error handling middleware
+
+#### Database Layer
+- **`db.js`** - PostgreSQL connection pool
+  - Database connection configuration
+  - Connection error handling
+  - Query utility exports
+
+#### Authentication & Middleware (`/middleware`)
+- **`auth.js`** - JWT authentication middleware
+  - `authenticate` - Verifies JWT tokens
+  - `authorizeAdmin` - Role-based access control
+- **`adminKey.js`** - API key protection for admin routes
+
+#### API Routes (`/routes`)
+
+##### **User Management** (`userRoutes.js`)
+| Endpoint | Method | Description | Authentication |
+|----------|--------|-------------|----------------|
+| `/api/users/register` | POST | User registration | Public |
+| `/api/users/login` | POST | User login | Public |
+
+**Features:**
+- Password hashing with bcrypt
+- JWT token generation
+- Email uniqueness validation
+- Role-based user creation
+
+##### **Book Management** (`bookRoutes.js`)
+| Endpoint | Method | Description | Auth |
+|----------|--------|-------------|------|
+| `/api/books` | GET | Get all books | Public |
+| `/api/books/:id` | GET | Get book by ID | Public |
+| `/api/books/category/:category` | GET | Books by category | Public |
+| `/api/books` | POST | Add new book | Admin |
+| `/api/books/:id` | PUT | Update book | Admin |
+| `/api/books/:id` | DELETE | Delete book | Admin |
+
+**Features:**
+- Public browsing for all users
+- Admin-only CRUD operations
+- Category-based filtering
+- ISBN uniqueness validation
+
+##### **Category & Search** (`categoryRoute.js`)
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/categories` | GET | List all categories |
+| `/api/categories/search` | GET | Search books |
+| `/api/categories/:id/books` | GET | Books by category ID |
+| `/api/categories/name/:name` | GET | Books by category name |
+
+**Search Features:**
+- Multi-field search (title, author, category)
+- Case-insensitive matching
+- Real-time results with debouncing
+- Filter by search category
+
+##### **Order Management** (`orderRoutes.js`)
+| Endpoint | Method | Description | Auth |
+|----------|--------|-------------|------|
+| `/api/orders/cart` | GET | Get user cart | User |
+| `/api/orders/cart` | POST | Add to cart | User |
+| `/api/orders/cart/:id` | PUT | Update cart item | User |
+| `/api/orders/cart/:id` | DELETE | Remove from cart | User |
+| `/api/orders/checkout` | POST | Create order | User |
+| `/api/orders` | GET | User orders | User |
+| `/api/orders/:id` | GET | Order details | User |
+
+**Cart Features:**
+- Stock validation before adding to cart
+- Quantity management with stock checks
+- Persistent cart across sessions
+- Real-time price calculations
+
+**Checkout Features:**
+- Multiple payment methods (screenshot, cash)
+- Address validation
+- Order status tracking
+- Email notifications
+
+##### **Wishlist Management** (`wishlistRoutes.js`)
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/wishlist` | GET | Get user wishlist |
+| `/api/wishlist` | POST | Add to wishlist |
+| `/api/wishlist/:id` | DELETE | Remove from wishlist |
+| `/api/wishlist/book/:book_id` | DELETE | Remove by book ID |
+| `/api/wishlist/:id/move-to-cart` | POST | Move to cart |
+
+**Features:**
+- Duplicate prevention
+- Quick cart transfer
+- Wishlist count tracking
+
+##### **Admin Routes** (`adminRoutes.js`)
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/admin/orders` | GET | All orders with user details |
+| `/api/admin/users` | GET | All users with statistics |
+| `/api/admin/stats` | GET | Dashboard statistics |
+
+**Admin Features:**
+- Sales analytics
+- User management
+- Order overview
+- Revenue tracking
+
+##### **Review System** (`reviewRoutes.js`)
+| Endpoint | Method | Description | Auth |
+|----------|--------|-------------|------|
+| `/api/reviews` | POST | Submit review | Public |
+| `/api/reviews` | GET | Get approved reviews | Public |
+| `/api/reviews/admin/pending` | GET | Pending reviews | Admin |
+| `/api/reviews/admin/:id/approve` | PUT | Approve review | Admin |
+
+**Features:**
+- Guest reviews with moderation
+- Admin approval workflow
+- Public display of approved reviews
+
+#### Data Utilities (`/scripts`)
+- **`fetchBooks.js`** - Populate database from Google Books API
+- **`seedCategories.js`** - Initialize book categories
+- **`normalizeCategories.js`** - Standardize category names
+- **`categorizeBooks.js`** - Auto-categorize books
+- **`hashadmin.js`** - Password hashing utility
+
+#### Database Models (`/models`)
+- **`initTables.js`** - Database schema creation
+- **`seedAdmin.js`** - Default admin user creation
+- **`seed.js`** - Sample data population
+
+### Frontend Structure (`/public`)
+
+#### HTML Pages
+
+##### **Core Pages**
+- **`index.html`** - Homepage with featured content
+- **`categories.html`** - Book browsing and search
+- **`books.html`** - Complete book listing
+
+##### **User Features**
+- **`login.html`** - User authentication
+- **`register.html`** - User registration
+- **`cart.html`** - Shopping cart management
+- **`wishlist.html`** - Wishlist management
+- **`orders.html`** - Order history and tracking
+- **`checkout.html`** - Purchase completion
+- **`contact.html`** - Reviews and feedback
+
+##### **Admin Features**
+- **`admin.html`** - Book inventory management
+- **`admin-order.html`** - Order processing dashboard
+- **`payment-success.html`** - Order confirmation
+
+#### Stylesheets (`/css`)
+
+##### **Core Styles**
+- **`style.css`** - Global styles and design system
+- **Responsive grid system**
+- **Color scheme and typography**
+- **Component styles (cards, buttons, forms)**
+
+##### **Page-Specific Styles**
+- **`admin.css`** & **`admin-order.css`** - Admin panel styling
+- **`cart.css`** - Shopping cart layout
+- **`categories.css`** - Book grid and search UI
+- **`login.css`** & **`register.css`** - Auth form styling
+- **`orders.css`** - Order history layout
+- **`wishlist.css`** - Wishlist management UI
+- **`contact.css`** - Review form styling
+
+#### JavaScript Modules (`/js`)
+
+##### **Application Core**
+- **`script.js`** - Shared utilities and helpers
+- **`home.js`** - Homepage functionality
+
+##### **Feature Modules**
+- **`admin.js`** - Book management interface
+- **`admin-order.js`** - Order processing dashboard
+- **`cart.js`** - Shopping cart operations
+- **`categories.js`** - Search and browsing
+- **`contact.js`** - Review submission
+- **`login.js`** & **`register.js`** - Authentication
+- **`orders.js`** - Order tracking
+- **`wishlist.js`** - Wishlist management
+
+## 🔧 Technical Implementation Details
+
+### Database Schema Design
+
+#### Core Tables
+```sql
+users (user_id, name, email, password, role, created_at)
+books (book_id, title, author, isbn, price, stock, description, cover_url)
+categories (category_id, name, description)
+orders (order_id, user_id, total_price, status, payment_method, ...)
+order_items (order_item_id, order_id, book_id, quantity, price)
+cart_items (cart_item_id, user_id, book_id, quantity)
+wishlist (wishlist_id, user_id, book_id, created_at)
+reviews (review_id, user_id, guest_name, guest_email, comment, is_approved)
+```
+
+#### Key Relationships
+- **Users → Orders** (One-to-Many)
+- **Orders → Order Items** (One-to-Many)
+- **Books → Categories** (Many-to-One)
+- **Users → Cart Items** (One-to-Many)
+- **Users → Wishlist** (One-to-Many)
+
+### Authentication Flow
+
+1. **User Registration**
+   - Frontend form validation
+   - Password strength checking
+   - Backend email uniqueness verification
+   - Password hashing with bcrypt
+   - JWT token generation
+
+2. **User Login**
+   - Credential validation
+   - JWT token issuance
+   - Session storage management
+   - Role-based redirects
+
+3. **Protected Routes**
+   - JWT token verification middleware
+   - Role-based access control
+   - Automatic token expiration handling
+
+### Payment Processing System
+
+#### Screenshot Verification Flow
+1. User uploads payment screenshot during checkout
+2. Order created with `pending_verification` status
+3. Admin reviews payment evidence in admin panel
+4. Admin approves → stock updated, confirmation email sent
+5. Admin rejects → notification email sent, order marked rejected
+
+#### Cash on Delivery Flow
+1. User selects cash payment
+2. Order created with `pending` status
+3. Admin updates status through shipping process
+4. Status progression: pending → processing → shipped → delivered
+
+### Search & Filtering System
+
+#### Implementation Features
+- **Debounced search** (300ms delay)
+- **Multi-field search** (title, author, category)
+- **Real-time results** with loading states
+- **Category-based filtering**
+- **Empty state handling**
+
+#### API Integration
+```javascript
+// Search endpoint usage
+/api/categories/search?q=searchTerm&filter=category
+```
+
+### Shopping Cart Architecture
+
+#### Client-Side Management
+- **Local storage persistence**
+- **Real-time quantity updates**
+- **Stock validation**
+- **Price calculations**
+
+#### Server-Side Sync
+- **Database persistence**
+- **Stock reservation**
+- **Concurrency control**
+- **Transaction safety**
+
+## 🎨 UI/UX Design System
+
+### Color Scheme
+- **Primary**: Warm, book-themed colors
+- **Accents**: Complementary action colors
+- **Neutral**: Clean backgrounds and text colors
+
+### Typography
+- **Headings**: Playfair Display (600 weight)
+- **Body Text**: Merriweather (400, 700 weights)
+- **Icons**: Font Awesome 6.4.0
+
+### Responsive Breakpoints
+- **Mobile**: < 768px
+- **Tablet**: 768px - 1024px
+- **Desktop**: > 1024px
+
+### Component Library
+- **Cards**: Book displays, category items
+- **Buttons**: Primary, secondary, danger variants
+- **Forms**: Consistent validation styling
+- **Modals**: Popup dialogs for details and actions
+- **Tables**: Data presentation for orders and admin
+
+## 🔒 Security Implementation
+
+### Authentication Security
+- JWT tokens with expiration
+- Password hashing (bcrypt, 10 rounds)
+- Role-based route protection
+- Session management
+
+### Data Validation
+- Input sanitization on all endpoints
+- SQL injection prevention with parameterized queries
+- XSS protection through output encoding
+- File upload validation
+
+### API Security
+- CORS configuration
+- Rate limiting readiness
+- Error message sanitization
+- Secure headers
+
+## 📱 Mobile-First Features
+
+### Responsive Navigation
+- Hamburger menu for mobile
+- Touch-friendly button sizes
+- Optimized form inputs
+- Mobile-appropriate layouts
+
+### Performance Optimizations
+- Image optimization and lazy loading
+- Minimal JavaScript bundle sizes
+- Efficient CSS delivery
+- Debounced user interactions
+
+## 🚀 Deployment Guide
+
+### Production Environment Setup
+
+1. **Environment Configuration**
+```bash
+NODE_ENV=production
+DATABASE_URL=postgresql://user:pass@host:5432/dbname
+JWT_SECRET=your_secure_jwt_secret
+ADMIN_API_KEY=your_admin_api_key
+```
+
+2. **Build Process**
+```bash
+npm install --production
+```
+
+3. **Database Migration**
+```bash
+node src/models/initTables.js
+node src/models/seedAdmin.js
+```
+
+4. **Start Production Server**
+```bash
 npm start
-
-API Endpoints
-
-Authentication
-POST /api/users/register - User registration
-
-POST /api/users/login - User login
-
-Books
-GET /api/books - Get all books
-
-GET /api/books/:id - Get book by ID
-
-GET /api/books/category/:category - Get books by category
-
-POST /api/books - Add new book (Admin)
-
-PUT /api/books/:id - Update book (Admin)
-
-DELETE /api/books/:id - Delete book (Admin)
-
-GET /api/categories - List all categories
-
-GET /api/categories/search?q=term&filter=all - Search books
-
-GET /api/categories/books/all - Get all books with categories
-
-GET /api/categories/:id/books - Get books by category ID
-
-Orders & Cart
-GET /api/orders/cart - Get user cart
-
-POST /api/orders/cart - Add to cart
-
-PUT /api/orders/cart/:id - Update cart item
-
-DELETE /api/orders/cart/:id - Remove from cart
-
-POST /api/orders/checkout - Checkout
-
-GET /api/orders - Get user orders
-
-GET /api/orders/:id - Get order details
-
-Wishlist
-GET /api/wishlist - Get user wishlist
-
-POST /api/wishlist - Add to wishlist
-
-DELETE /api/wishlist/:id - Remove from wishlist
-
-POST /api/wishlist/:id/move-to-cart - Move to cart
-
-Admin
-GET /api/admin/stats - Dashboard statistics
-
-GET /api/admin/orders - All orders
-
-GET /api/admin/users - All users
-
-PUT /api/admin/orders/:id/status - Update order status
-
-Database Schema
-
-Core Tables
-users - User accounts and authentication
-
-categories - Book categories
-
-books - Book inventory with metadata
-
-orders - Order information with payment details
-
-order_items - Individual items in orders
-
-cart_items - Shopping cart items
-
-wishlist - User wishlists
-
-reviews - Book reviews and ratings
-
-Key Relationships
-Users ↔ Orders (One-to-Many)
-
-Orders ↔ Order Items (One-to-Many)
-
-Books ↔ Categories (Many-to-One)
-
-Users ↔ Cart Items (One-to-Many)
-
-Users ↔ Wishlist (One-to-Many)
-  
-Authentication
-
-JWT Token Flow
-User logs in with email/password
-
-Server validates credentials and returns JWT token
-
-Client includes token in Authorization header: Bearer <token>
-
-Protected routes use authenticate middleware
-
-Admin routes use authorizeAdmin middleware
-
-Payment Flow
-
-1. Screenshot Payment Method
-
-User Checkout → Upload Payment Screenshot → Order Status: pending_verification
-     ↓
-Admin Reviews Screenshot → Approve/Reject → Email Notification
-     ↓
-If Approved: Order Status: paid → Stock Updated → Cart Cleared
-
-2. Cash on Delivery
-
-User Checkout → Select Cash Payment → Order Status: pending
-     ↓
-Admin Updates Status → processing → shipped → delivered
-
-Admin Features
-
-Admin Features
-Dashboard Statistics
-Total users, orders, revenue, books
-
-Recent orders
-
-Order status distribution
-
-Order Management
-View all orders with user details
-
-Update order status
-
-Verify payment screenshots
-
-Send status update emails
-
-User Management
-View all users with order history
-
-Track user spending
-
-Content Management
-Add/edit/delete books
-
-Moderate reviews
-
-Manage categories
-
-📧 Email Notifications
-The system includes simulated email services for:
-
-Order verification (approval/rejection)
-
-Order status updates
-
-Payment confirmations
-
-Note: Currently logs to console. Integrate with real email service (SendGrid, Mailgun) for production.
-
-
-
-Scripts
-
- Scripts
-Database Management
-initTables.js - Creates all database tables with constraints
-
-seedAdmin.js - Creates default admin user
-
-seedCategories.js - Populates book categories
-
-Data Population
-fetchBooks.js - Fetches books from Google Books API
-
-normalizeCategories.js - Standardizes book categories
-
-categorizeBooks.js - Auto-categorizes books using AI mapping
-
-Utilities
-hashadmin.js - Generates bcrypt hashes for passwords
-
-Public (Frontend) Files
-
-The public/ folder contains the client-side application (HTML, CSS, JavaScript).
-
-index.html → Homepage (entry point).
-
-login.html / js/login.js → Login page; authenticates user and stores JWT + user info in localStorage.
-
-register.html / js/register.js → Registration page; lets new users sign up.
-
-categories.html / js/categories.js → Displays categories, lists books, handles “Add to Cart”, and enforces login before cart actions.
-
-cart.html / js/cart.js → Displays current user’s cart, allows quantity updates, clearing, and checkout.
-
-admin.html / js/admin.js → Admin dashboard; only accessible by admin users, supports adding, editing, deleting, and searching books.
-
-contact.html → Static contact page.
-
-css/style.css → Global styles (layout, header, footer).
-
-css/categories.css → Category and book grid styling.
-
-css/cart.css → Cart page styling.
-
- All frontend files interact with the backend API via Fetch API and use the JWT token from localStorage for authenticated requests.
-
+```
+
+### Deployment Considerations
+- **HTTPS enforcement**
+- **Environment variable security**
+- **Database connection pooling**
+- **Static file serving optimization**
+- **Error logging and monitoring**
+
+## 🔍 Testing Strategy
+
+### Manual Testing Checklist
+
+#### User Flows
+- [ ] User registration and login
+- [ ] Book browsing and search
+- [ ] Shopping cart operations
+- [ ] Checkout process
+- [ ] Order tracking
+- [ ] Wishlist management
+
+#### Admin Flows
+- [ ] Book inventory management
+- [ ] Order processing
+- [ ] Payment verification
+- [ ] User management
+- [ ] Review moderation
+
+#### Edge Cases
+- [ ] Out-of-stock scenarios
+- [ ] Payment verification failures
+- [ ] Network error handling
+- [ ] Form validation errors
+
+## 📈 Performance Optimization
+
+### Backend Optimizations
+- Database query optimization
+- Efficient JOIN operations
+- Proper indexing strategy
+- Connection pooling
+
+### Frontend Optimizations
+- Image compression and lazy loading
+- JavaScript bundle optimization
+- CSS minimization
+- Efficient DOM manipulation
+
+### Network Optimizations
+- API response compression
+- Static asset caching
+- CDN readiness
+- Request batching
+
+## 🤝 API Documentation
+
+### Consistent Response Format
+```javascript
+{
+  success: boolean,
+  data: object|array,
+  error: string,
+  message: string
+}
+```
+
+### Error Handling
+- **400** - Bad Request (validation errors)
+- **401** - Unauthorized (authentication required)
+- **403** - Forbidden (insufficient permissions)
+- **404** - Not Found (resource doesn't exist)
+- **500** - Server Error (internal issues)
+
+## 🔮 Future Enhancements
+
+### Planned Features
+- **Payment Gateway Integration** - Stripe/PayPal support
+- **Advanced Search** - Full-text search with Elasticsearch
+- **Book Recommendations** - Machine learning suggestions
+- **Social Features** - Reading lists, reviews, sharing
+- **Mobile App** - React Native application
+- **Analytics Dashboard** - Advanced business intelligence
+- **Multi-language Support** - Internationalization
+- **Advanced Inventory** - Supplier management, reordering
+
+### Technical Improvements
+- **Real-time Updates** - WebSocket integration
+- **Caching Layer** - Redis for performance
+- **Microservices** - Scalable architecture
+- **CI/CD Pipeline** - Automated testing and deployment
+
+---
+
+## 📞 Support & Maintenance
+
+### Development Tools
+- **Debugging**: Comprehensive console logging
+- **Monitoring**: Performance and error tracking
+- **Documentation**: API and code documentation
+
+### Maintenance Procedures
+- **Regular backups** of database
+- **Security updates** for dependencies
+- **Performance monitoring**
+- **Error log review**

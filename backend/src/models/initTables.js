@@ -108,25 +108,22 @@ async function createTables() {
     `);
 
     // 8. Reviews
-    await query(`
-      CREATE TABLE IF NOT EXISTS reviews (
-        review_id SERIAL PRIMARY KEY,
-        user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
-        book_id INT REFERENCES books(book_id) ON DELETE CASCADE,
-        rating INT CHECK (rating BETWEEN 1 AND 5),
-        comment TEXT,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      );
-    `);
-
-    // Add this after creating the reviews table in initTables.js
 await query(`
-  ALTER TABLE reviews 
-  ALTER COLUMN user_id DROP NOT NULL,
-  ADD COLUMN IF NOT EXISTS guest_name VARCHAR(100),
-  ADD COLUMN IF NOT EXISTS guest_email VARCHAR(150),
-  ADD COLUMN IF NOT EXISTS is_approved BOOLEAN DEFAULT false;
+  CREATE TABLE IF NOT EXISTS reviews (
+    review_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+    book_id INT REFERENCES books(book_id) ON DELETE CASCADE,
+    rating INT CHECK (rating BETWEEN 1 AND 5),
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    guest_name VARCHAR(100),
+    guest_email VARCHAR(150),
+    is_approved BOOLEAN DEFAULT false,
+    review_title VARCHAR(200),
+    review_type VARCHAR(50) DEFAULT 'general'
+  );
 `);
+
 
     // Add status constraints to orders table
     await query(`
@@ -186,7 +183,7 @@ await query(`
       INSERT INTO users (name, email, password, role) 
       VALUES ('Admin User', 'admin@booknest.com', '$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin')
       ON CONFLICT (email) DO NOTHING;
-    `);
+    `); 
     
     console.log("✅ Sample admin user created (if not exists)!");
 

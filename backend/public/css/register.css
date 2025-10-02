@@ -851,3 +851,88 @@ footer::before {
   z-index: 1;
   font-size: 0.9rem;
 }
+
+
+/* Make the header row a flex row that can wrap */
+.site-header > .container,
+.site-header .container.flex.between.center.wrap{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  flex-wrap:wrap !important;
+  gap:12px !important;
+  min-height:64px;
+}
+
+/* Ensure the main nav is flex and its items sit in a row */
+.site-header #mainNav,
+.site-header nav.nav{
+  display:flex !important;
+  align-items:center !important;
+  gap:8px !important;
+  flex-wrap:wrap !important;
+}
+
+/* Push the right-side actions all the way to the right */
+.site-header #mainNav .nav-right{
+  margin-left:auto !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:10px !important;
+}
+
+/* Consistent counter bubbles */
+.site-header .badge span{
+  min-width:22px !important; height:22px !important;
+  display:inline-flex !important; align-items:center !important; justify-content:center !important;
+  border-radius:999px !important; line-height:1 !important; font-weight:700 !important;
+}
+
+/* Active link look */
+.site-header .nav a.active{
+  background:var(--cream-dark) !important;
+  color:var(--brown) !important;
+  border-radius:var(--radius) !important;
+}
+
+/* Mobile: nav becomes a full-width row, actions go to a new line on the right */
+@media (max-width: 960px){
+  .site-header #mainNav{
+    order:2 !important;
+    width:100% !important;
+    justify-content:center !important;
+    overflow-x:auto !important;
+    scrollbar-width:none !important;
+    padding:6px 0 !important;
+  }
+  .site-header #mainNav::-webkit-scrollbar{ display:none !important; }
+
+  .site-header #mainNav .nav-right{
+    order:3 !important;
+    width:100% !important;
+    justify-content:flex-end !important;
+    margin-top:6px !important;
+  }
+}
+
+/* Prevent sticky header covering anchor targets */
+html{ scroll-padding-top:72px !important; }
+/* Fix header layout */
+.site-header .container {
+  display: flex;
+  justify-content: space-between; /* brand left, nav right */
+  align-items: center;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* more breathing space between links */
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: 20px;
+}
