@@ -524,12 +524,12 @@ npm start
 - **Advanced Inventory** - Supplier management, reordering
 
 
- students name 
-  Hilina hussien QV2210
-Kalkidan Mamo UQ0437
-Liyuwork kebede BL9873
-Meghfira kheyredin EJ7439(DRBSE2302 B)
-Rahma yasin UC1303(DRBSE2302 B)
-Rihana abdellah Rp1872(DRBSE2302 B)
+ students name  
+1.  Hilina hussien QV2210   
+2.  Kalkidan Mamo UQ0437
+3.  Liyuwork kebede BL9873
+4. Meghfira kheyredin EJ7439(DRBSE2302 B)
+5. Rahma yasin UC1303(DRBSE2302 B)
+6. Rihana abdellah Rp1872(DRBSE2302 B)
 
 
