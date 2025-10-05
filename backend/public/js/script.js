@@ -1,5 +1,5 @@
 // public/script.js
-const API_BASE = '/api';
+const API_BASE = 'https://book-store-1-jh02.onrender.com/api';
 
 let currentUser = null;
 
