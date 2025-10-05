@@ -59,7 +59,7 @@ async function updateCartWishlistCounts() {
         const token = sessionStorage.getItem("token");
         if (!token) return;
 
-        const baseUrl = 'http://localhost:3000/api';
+        const baseUrl = 'https://book-store-1-jh02.onrender.com/api';
 
         // Update cart count
         const cartResponse = await fetch(`${baseUrl}/orders/cart`, {
