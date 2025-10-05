@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       // Use relative URL or environment-based URL
-      const apiUrl = '/api/users/register'; // Adjust this to your actual API endpoint
+      const apiUrl = 'https://book-store-1-jh02.onrender.com/api/users/register'; // Adjust this to your actual API endpoint
       
       const res = await fetch(apiUrl, {
         method: "POST",
