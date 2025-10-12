@@ -4,21 +4,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const confirmPasswordInput = document.getElementById("confirm-password");
 
   // Password strength indicator
-  passwordInput.addEventListener('input', function(e) {
+  passwordInput.addEventListener('input', function (e) {
     const password = e.target.value;
     const strengthFill = document.getElementById('strength-fill');
     const strengthText = document.getElementById('strength-text');
-    
+
     let strength = 0;
     let text = 'Weak';
     let className = 'weak';
-    
+
     if (password.length >= 8) strength++;
     if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
     if (password.match(/\d/)) strength++;
     if (password.match(/[^a-zA-Z\d]/)) strength++;
-    
-    switch(strength) {
+
+    switch (strength) {
       case 0:
       case 1:
         text = 'Weak';
@@ -37,17 +37,17 @@ document.addEventListener("DOMContentLoaded", () => {
         className = 'strong';
         break;
     }
-    
+
     strengthFill.className = 'strength-fill ' + className;
     strengthText.className = 'strength-text ' + className;
     strengthText.textContent = text;
   });
 
   // Real-time password confirmation check
-  confirmPasswordInput.addEventListener('input', function() {
+  confirmPasswordInput.addEventListener('input', function () {
     const password = passwordInput.value;
     const confirmPassword = this.value;
-    
+
     if (confirmPassword && password !== confirmPassword) {
       this.style.borderColor = '#e74c3c';
       this.style.boxShadow = '0 0 0 3px rgba(231, 76, 60, 0.1)';
@@ -113,16 +113,16 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       // Use relative URL or environment-based URL
       const apiUrl = '/api/users/register'; // Adjust this to your actual API endpoint
-      
+
       const res = await fetch(apiUrl, {
         method: "POST",
-        headers: { 
+        headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ 
-          name, 
-          email, 
-          password 
+        body: JSON.stringify({
+          name,
+          email,
+          password
         })
       });
 
@@ -175,3 +175,53 @@ const errorStyles = `
 const styleSheet = document.createElement('style');
 styleSheet.textContent = errorStyles;
 document.head.appendChild(styleSheet);
+
+
+//mobile menu toggle 
+document.addEventListener('DOMContentLoaded', function () {
+
+  initMobileMenu();
+}
+);
+
+function initMobileMenu() {
+
+  const menuToggle = document.getElementById('menuToggle');
+  const mainNav = document.getElementById('mainNav');
+  const navOverlay = document.getElementById('navOverlay');
+  const navLinks = document.querySelectorAll('.nav a');
+
+  if (!menuToggle || !mainNav || !navOverlay) {
+    console.error('mobile menu elements not found');
+  }
+
+  menuToggle.addEventListener('click', function () {
+    this.classList.toggle('active');
+    mainNav.classList.toggle('active');
+    navOverlay.classList.toggle('active');
+    document.body.style.overflow = mainNav.classList.contains('active') ? 'hidden' : '';
+
+
+  });
+
+  navOverlay.addEventListener('click', function () {
+    menuToggle.classList.remove('active');
+    mainNav.classList.remove('active');
+    this.classList.remove('active');
+    document.body.this.style.overflow = '';
+  });
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', function () {
+      menuToggle.classList.remove('active');
+      mainNav.classList.remove('active');
+      navOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+  });
+
+}
+
+
+
+

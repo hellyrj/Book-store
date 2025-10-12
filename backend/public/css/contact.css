@@ -157,7 +157,7 @@ body {
 
 .login-btn {
   padding: 8px 16px;
-  background: var(--brown);
+  background: white;
   color: white;
   border-radius: var(--radius);
   font-weight: 600;

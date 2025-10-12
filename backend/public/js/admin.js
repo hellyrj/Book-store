@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Render books table 
+  // Render books table
   function renderBooks(list) {
     booksBody.innerHTML = "";
     

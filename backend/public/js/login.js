@@ -1,5 +1,60 @@
+//mobile menu toggle 
+document.addEventListener('DOMContentLoaded', function () {
+
+  initMobileMenu();
+}
+);
+
+function initMobileMenu() {
+
+  const menuToggle = document.getElementById('menuToggle');
+  const mainNav = document.getElementById('mainNav');
+  const navOverlay = document.getElementById('navOverlay');
+  const navLinks = document.querySelectorAll('.nav a');
+
+  if (!menuToggle || !mainNav || !navOverlay) {
+    console.error('mobile menu elements not found');
+  }
+
+  menuToggle.addEventListener('click', function () {
+    this.classList.toggle('active');
+    mainNav.classList.toggle('active');
+    navOverlay.classList.toggle('active');
+    document.body.style.overflow = mainNav.classList.contains('active') ? 'hidden' : '';
+
+
+  });
+
+  navOverlay.addEventListener('click', function () {
+    menuToggle.classList.remove('active');
+    mainNav.classList.remove('active');
+    this.classList.remove('active');
+    document.body.this.style.overflow = '';
+  });
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', function () {
+      menuToggle.classList.remove('active');
+      mainNav.classList.remove('active');
+      navOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+  });
+
+}
+
+
+
+
+
+
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
-  
+
 
   const form = document.getElementById("login-form");
 
@@ -34,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (data.user.role === "admin") {
         window.location.href = "admin-order.html";
       } else {
-        window.location.href = "index.html";
+        window.location.href = "categories.html";
       }
 
     } catch (err) {

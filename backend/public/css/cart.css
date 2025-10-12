@@ -157,7 +157,7 @@ body {
 
 .login-btn {
   padding: 8px 16px;
-  background: var(--brown);
+  background: white;
   color: white;
   border-radius: var(--radius);
   font-weight: 600;
@@ -933,6 +933,139 @@ html{ scroll-padding-top:72px !important; }
   justify-content: space-between; /* brand left, nav right */
   align-items: center;
 }
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* more breathing space between links */
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: 20px;
+}
+
+
+/* Mobile: nav becomes a full-width row, actions go to a new line on the right */
+@media (max-width: 960px){
+  .site-header #mainNav{
+    order:2 !important;
+    width:100% !important;
+    justify-content:center !important;
+    overflow-x:auto !important;
+    scrollbar-width:none !important;
+    padding:6px 0 !important;
+  }
+  .site-header #mainNav::-webkit-scrollbar{ display:none !important; }
+
+  .site-header #mainNav .nav-right{
+    order:3 !important;
+    width:100% !important;
+    justify-content:flex-end !important;
+    margin-top:6px !important;
+  }
+}
+
+/* Mobile Menu & Hamburger */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  gap: 3px;
+  z-index: 1001;
+}
+
+.menu-toggle span {
+  width: 20px;
+  height: 2px;
+  background: var(--brown);
+  border-radius: 1px;
+}
+
+.menu-toggle:hover span {
+  background: var(--brown-light);
+}
+
+.menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(4px, 4px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(4px, -4px);
+}
+
+
+/* Mobile Navigation */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
+  }
+  
+  .nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background: white;
+    flex-direction: column;
+    padding: 80px 20px 20px;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease;
+    z-index: 1000;
+    gap: 8px;
+  }
+  
+  .nav.active {
+    right: 0;
+  }
+  
+  .nav-right {
+    margin-left: 0;
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  
+  .nav a {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    padding: 12px 16px;
+    font-size: 1rem;
+  }
+  
+  /* Overlay when menu is open */
+  .nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease;
+  }
+  
+  .nav-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+
 
 .nav {
   display: flex;

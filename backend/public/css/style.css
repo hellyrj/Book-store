@@ -157,11 +157,10 @@ body {
 
 .login-btn {
   padding: 8px 16px;
-  background: var(--brown);
+  background: white;
   color: white;
-  border-radius: var(--radius);
+  border-radius: brown;
   font-weight: 600;
-  border: 1px solid var(--brown);
   font-size: 0.9rem;
   text-decoration: none;
   transition: var(--transition);
