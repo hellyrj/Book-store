@@ -1,10 +1,6 @@
 
-```markdown
 # CozyReads Online Bookstore 📚
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js](https://img.shields.io/badge/Node.js-18.x-green.svg)](https://nodejs.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-12+-blue.svg)](https://www.postgresql.org/)
 
 A full-stack online bookstore application built with Node.js/Express backend and vanilla JavaScript frontend. Features include user authentication, book browsing, shopping cart, wishlist, order management, and comprehensive admin dashboard.
 
@@ -320,4 +316,5 @@ This README.md file includes:
 7. **Deployment guide** for production
 8. **Future roadmap** for development
 9. **Contributing guidelines**
+
 
