@@ -2,7 +2,7 @@ class CartManager {
   constructor() {
     this.token = sessionStorage.getItem("token");
     this.user = JSON.parse(sessionStorage.getItem("user"));
-    this.apiBase = "http://localhost:3000/api/orders";
+    this.apiBase = "/api/orders";
     
     this.init();
   }
