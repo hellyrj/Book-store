@@ -1,5 +1,5 @@
 // API base URL
-const API_BASE = 'http://localhost:3000/api';
+const API_BASE = '/api';
 
 // DOM elements
 const homeCategoriesEl = document.getElementById('home-categories');
