@@ -50,8 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // API endpoints
   const API = {
-    BOOKS: "http://localhost:3000/api/books",
-    CATS: "http://localhost:3000/api/categories"
+    BOOKS: "/api/books",
+    CATS: "/api/categories"
   };
 
   // Helper functions
