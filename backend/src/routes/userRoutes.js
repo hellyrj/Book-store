@@ -1,6 +1,6 @@
 // src/routes/userRoutes.js
 import express from "express";
-import pool from "../db.js"; // make sure your db.js also uses export default
+import pool from "../db.js"; 
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
